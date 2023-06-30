@@ -1,0 +1,73 @@
+fileFormatVersion: 2
+guid: 973fbf2751fb4654cb5d2f8acdb422a6
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst UIManager_1 = require(\"./UIManager\");\r\nclass
+    GameManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake() {\r\n       
+    // Singleton pattern\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Inequality(GameManager.instance,
+    null))\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
+    else\r\n            GameManager.instance = this;\r\n    }\r\n    // This functions
+    will set the selection of the player hand\r\n    SelectPlayerHand(selection)
+    {\r\n        // Call to the function SelectPlayerSprite on the UIManager\r\n       
+    UIManager_1.default.instance.SelectPlayerSprite(selection);\r\n        // Set
+    the player selection\r\n        this.playerSelection = selection;\r\n    }\r\n   
+    // This function will select the opponent hand (rock, paper or scissors)\r\n   
+    SelectOpponentHand() {\r\n        // first we will let the variables to get a
+    random hand\r\n        // Setting the random selection\r\n        let rnd = 0;\r\n       
+    // Set the limit on the sprite amount on the UIManager\r\n        let limit =
+    3;\r\n        // Select a random number between 0 and the limit\r\n        rnd
+    = UnityEngine_1.Random.Range(0, limit);\r\n        // if rnd gets a float as
+    result it gets rounded to int\r\n        rnd = UnityEngine_1.Mathf.FloorToInt(rnd);\r\n       
+    // console.log( \"Rnd: \" + rnd );\r\n        // Call to the function SelectOpponentSprite
+    on the UIManager\r\n        UIManager_1.default.instance.SelectOpponentSprite(rnd);\r\n       
+    // Set the opponent selection to the random selection\r\n        this.opponentSelection
+    = rnd;\r\n        this.Match();\r\n    }\r\n    Match() {\r\n        // console.log(
+    \"Player: \" + this.playerSelection + \" // Opponent: \" + this.opponentSelection
+    );\r\n        if (this.playerSelection == this.opponentSelection) {\r\n           
+    this.StartCoroutine(this.WaitToResolve(false, true));\r\n            return;\r\n       
+    }\r\n        let playerWins = false;\r\n        switch (this.playerSelection)
+    {\r\n            case 0:\r\n                if (this.opponentSelection == 2)
+    {\r\n                    playerWins = true;\r\n                }\r\n               
+    break;\r\n            case 1:\r\n                if (this.opponentSelection ==
+    0) {\r\n                    playerWins = true;\r\n                }\r\n               
+    break;\r\n            case 2:\r\n                if (this.opponentSelection ==
+    1) {\r\n                    playerWins = true;\r\n                }\r\n               
+    break;\r\n        }\r\n        this.StartCoroutine(this.WaitToResolve(playerWins));\r\n   
+    }\r\n    *WaitToStart() {\r\n        let counter = this.counterToStart;\r\n       
+    UIManager_1.default.instance.counterText.text = counter.toString();\r\n       
+    UIManager_1.default.instance.playBtn.gameObject.SetActive(false);\r\n       
+    UIManager_1.default.instance.counterObj.SetActive(true);\r\n        while (true)
+    {\r\n            yield null;\r\n            yield new UnityEngine_1.WaitForSeconds(1);\r\n           
+    counter--;\r\n            UIManager_1.default.instance.counterText.text = counter.toString();\r\n           
+    // console.log( \"Counter: \" + counter );\r\n            if (counter == 0)\r\n               
+    break;\r\n        }\r\n        UIManager_1.default.instance.counterText.text
+    = \"START!\";\r\n        yield new UnityEngine_1.WaitForSeconds(0.5);\r\n       
+    UIManager_1.default.instance.counterObj.SetActive(false);\r\n        UIManager_1.default.instance.playBtn.gameObject.SetActive(true);\r\n       
+    UIManager_1.default.instance.startPanel.SetActive(false);\r\n        UIManager_1.default.instance.gamePanel.SetActive(true);\r\n   
+    }\r\n    *WaitToResolve(playerWins, draw = false) {\r\n        yield new UnityEngine_1.WaitForSeconds(1);\r\n       
+    if (draw) {\r\n            UIManager_1.default.instance.CleanSelections();\r\n           
+    UIManager_1.default.instance.ShowDrawEndPanel();\r\n            return;\r\n       
+    }\r\n        UIManager_1.default.instance.CleanSelections();\r\n        if (playerWins)\r\n           
+    UIManager_1.default.instance.ShowEndPanel(\"Player\", true);\r\n        else\r\n           
+    UIManager_1.default.instance.ShowEndPanel(\"CPU\", false);\r\n    }\r\n}\r\nexports.default
+    = GameManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZU1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHYW1lTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF3RTtBQUN4RSxpREFBcUQ7QUFDckQsMkNBQW9DO0FBRXBDLE1BQXFCLFdBQVksU0FBUSxxQ0FBcUI7SUFRMUQsS0FBSztRQUNELG9CQUFvQjtRQUNwQixJQWJDLHFDQUFxQixDQXlIczhGLGFBQWMsQ0E1R3IrRixXQUFXLENBQUMsUUFBUSxFQUFJLElBQUk7WUFBRyx3QkFBVSxDQUFDLE9BQU8sQ0FBRSxJQUFJLENBQUMsVUFBVSxDQUFFLENBQUM7O1lBQ3JFLFdBQVcsQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDO0lBQ3JDLENBQUM7SUFFRCwyREFBMkQ7SUFDcEQsZ0JBQWdCLENBQUcsU0FBYztRQUNwQywyREFBMkQ7UUFDM0QsbUJBQVMsQ0FBQyxRQUFRLENBQUMsa0JBQWtCLENBQUUsU0FBUyxDQUFFLENBQUM7UUFFbkQsMkJBQTJCO1FBQzNCLElBQUksQ0FBQyxlQUFlLEdBQUcsU0FBUyxDQUFDO0lBRXJDLENBQUM7SUFFRCx3RUFBd0U7SUFDakUsa0JBQWtCO1FBQ3JCLHVEQUF1RDtRQUV2RCwrQkFBK0I7UUFDL0IsSUFBSSxHQUFHLEdBQVEsQ0FBQyxDQUFDO1FBRWpCLHNEQUFzRDtRQUN0RCxJQUFJLEtBQUssR0FBUSxDQUFDLENBQUM7UUFFbkIsaURBQWlEO1FBQ2pELEdBQUcsR0FBRyxvQkFBTSxDQUFDLEtBQUssQ0FBRSxDQUFDLEVBQUUsS0FBSyxDQUFFLENBQUM7UUFFL0IsdURBQXVEO1FBQ3ZELEdBQUcsR0FBRyxtQkFBSyxDQUFDLFVBQVUsQ0FBRSxHQUFHLENBQUUsQ0FBQztRQUU5QixnQ0FBZ0M7UUFFaEMsNkRBQTZEO1FBQzdELG1CQUFTLENBQUMsUUFBUSxDQUFDLG9CQUFvQixDQUFFLEdBQUcsQ0FBRSxDQUFDO1FBRS9DLHFEQUFxRDtRQUNyRCxJQUFJLENBQUMsaUJB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","assetPath":"Assets/Project/_Scripts/Managers/GameManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"counterToStart","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"GameManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: b6508137770ba7f89c843a95cfb1a75d
+  onlyWriteTrigger: 0
