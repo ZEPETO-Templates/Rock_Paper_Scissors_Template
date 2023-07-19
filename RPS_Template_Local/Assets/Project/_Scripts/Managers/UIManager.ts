@@ -1,5 +1,5 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { Color, GameObject, Sprite } from 'UnityEngine';
+import { Color, GameObject, Sprite, WaitForSeconds } from 'UnityEngine';
 import { RoundedRectangle, RoundedRectangleButton, ZepetoText } from 'ZEPETO.World.Gui';
 import GameManager, { Hands } from './GameManager';
 
@@ -178,11 +178,60 @@ export default class UIManager extends ZepetoScriptBehaviour {
         } );
 
         this.playBtn.OnClick.AddListener( () => {
-            this.StartCoroutine( GameManager.instance.WaitToStart() );
+            this.StartCoroutine( this.WaitToStart() );
         } );
 
         // Deactivate all the panels and the exit button
         this.ShowPanel();
+    }
+
+    // This function is a Coroutine that shows the counter before start the game
+    *WaitToStart () {
+        // Set a counter with the variable previously assigned by inspector with the time to start
+        let counter: int = GameManager.instance.counterToStart;
+
+        // Call the function of the UIManager to show the number on the text
+        this.counterText.text = counter.toString();
+        // Deactivate the play button of the UI using the variable of the UIManager
+        this.playBtn.gameObject.SetActive( false );
+        // Activate the object of the counter in the UI using the variable of the UIManager
+        this.counterObj.SetActive( true );
+
+        // Here we start a loop to count by seconds and show that on the counter object
+        while ( true )
+        {
+            // Here we wait 1 second before continue with the code
+            yield new WaitForSeconds( 1 );
+
+            // We subtract 1 from the counter variable
+            counter--;
+
+            // Update the counter text in the UI using the variable of the UIManager
+            this.counterText.text = counter.toString();
+
+            // console.log( "Counter: " + counter );
+
+            // We chekc if the counter is 0 then we break the loop to continue with the code
+            if ( counter == 0 ) break;
+        }
+
+        // Update the counter text to "START!" in the UI using the variable of the UIManager
+        this.counterText.text = "START!";
+
+        // Wait for 0.5 seconds to continue, giving sometime to see the "Start!" text
+        yield new WaitForSeconds( 0.5 );
+
+        // Then we need to restart the panles, so we use the instance of the UIManager to:
+        // Deactivate the counter object
+        this.counterObj.SetActive( false );
+        // Activate the play button
+        this.playBtn.gameObject.SetActive( true );
+
+        // Call to the function ShowPanel to activate the game panel
+        this.ShowPanel( UIPanel.Game );
+
+        // With this, now we are showing the game panel to start play
+        // and we reset the start panel if the player wants to play again
     }
 
     // This functions sets the sprite of the player hand in the selected one

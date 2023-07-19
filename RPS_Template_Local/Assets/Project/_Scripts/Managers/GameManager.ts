@@ -11,7 +11,8 @@ export enum Hands {
 export default class GameManager extends ZepetoScriptBehaviour {
     public static instance: GameManager; // Singleton instance variable
 
-    @SerializeField() private counterToStart: number; // Variable to set the waiting time before starting a match
+    public counterToStart: number; // Variable to set the waiting time before starting a match
+
     private playerSelection: Hands; // Player selection variable will contain the hand selection of the player
     private opponentSelection: Hands; // Opponent selection variable will contain the hand selection of the opponent
 
@@ -92,55 +93,6 @@ export default class GameManager extends ZepetoScriptBehaviour {
         // We start the coroutine to resolve the situation. 
         this.StartCoroutine( this.WaitToResolve( playerWins ) );
 
-    }
-
-    // This function is a Coroutine that shows the counter before start the game
-    *WaitToStart () {
-        // Set a counter with the variable previously assigned by inspector with the time to start
-        let counter: int = this.counterToStart;
-
-        // Call the function of the UIManager to show the number on the text
-        UIManager.instance.counterText.text = counter.toString();
-        // Deactivate the play button of the UI using the variable of the UIManager
-        UIManager.instance.playBtn.gameObject.SetActive( false );
-        // Activate the object of the counter in the UI using the variable of the UIManager
-        UIManager.instance.counterObj.SetActive( true );
-
-        // Here we start a loop to count by seconds and show that on the counter object
-        while ( true )
-        {
-            // Here we wait 1 second before continue with the code
-            yield new WaitForSeconds( 1 );
-
-            // We subtract 1 from the counter variable
-            counter--;
-
-            // Update the counter text in the UI using the variable of the UIManager
-            UIManager.instance.counterText.text = counter.toString();
-
-            // console.log( "Counter: " + counter );
-
-            // We chekc if the counter is 0 then we break the loop to continue with the code
-            if ( counter == 0 ) break;
-        }
-
-        // Update the counter text to "START!" in the UI using the variable of the UIManager
-        UIManager.instance.counterText.text = "START!";
-
-        // Wait for 0.5 seconds to continue, giving sometime to see the "Start!" text
-        yield new WaitForSeconds( 0.5 );
-
-        // Then we need to restart the panles, so we use the instance of the UIManager to:
-        // Deactivate the counter object
-        UIManager.instance.counterObj.SetActive( false );
-        // Activate the play button
-        UIManager.instance.playBtn.gameObject.SetActive( true );
-
-        // Call to the function ShowPanel to activate the game panel
-        UIManager.instance.ShowPanel( UIPanel.Game );
-
-        // With this, now we are showing the game panel to start play
-        // and we reset the start panel if the player wants to play again
     }
 
     // This function is a coroutine that handles resolving the winner, resetting the selections, and passing some time to the winner later on
