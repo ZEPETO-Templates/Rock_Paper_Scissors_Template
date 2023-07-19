@@ -19,19 +19,24 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    { value: true });\r\nexports.Hands = void 0;\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
     ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst UIManager_1 = require(\"./UIManager\");\r\n//
-    This class is responsible for handling everything related to the gameplay of
-    the game, calling other managers if necessary\r\nclass GameManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
-    {\r\n    // Awake is called when an enabled script instance is being loaded\r\n   
-    Awake() {\r\n        // Singleton pattern\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Inequality(GameManager.instance,
+    Enum with the posibles hands to select\r\nvar Hands;\r\n(function (Hands) {\r\n   
+    Hands[Hands[\"rock\"] = 0] = \"rock\";\r\n    Hands[Hands[\"paper\"] = 1] = \"paper\";\r\n   
+    Hands[Hands[\"scissors\"] = 2] = \"scissors\";\r\n})(Hands = exports.Hands ||
+    (exports.Hands = {}));\r\n// This class is responsible for handling everything
+    related to the gameplay of the game, calling other managers if necessary\r\nclass
+    GameManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    // Awake is
+    called when an enabled script instance is being loaded\r\n    Awake() {\r\n       
+    // Singleton pattern\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Inequality(GameManager.instance,
     null))\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
     else\r\n            GameManager.instance = this;\r\n    }\r\n    // This functions
     will set the selection of the player hand\r\n    SelectPlayerHand(selection)
     {\r\n        // Call to the function SelectPlayerSprite on the UIManager\r\n       
     UIManager_1.default.instance.SetPlayerSprite(selection);\r\n        // Set the
-    player selection\r\n        this.playerSelection = selection;\r\n    }\r\n   
-    // This function will select the opponent hand (rock, paper or scissors)\r\n   
+    player selection\r\n        this.playerSelection = selection;\r\n        let
+    hand;\r\n        hand = selection;\r\n        console.log(\"Hand:\" + hand);\r\n   
+    }\r\n    // This function will select the opponent hand (rock, paper or scissors)\r\n   
     SelectOpponentHand() {\r\n        // first we will let the variables to get a
     random hand\r\n        // Setting the random selection\r\n        let rnd = 0;\r\n       
     // Select a random number between 0 and the max ammount of options (In this case
@@ -51,27 +56,26 @@ ScriptedImporter:
     player wins and not if he loses\r\n        let playerWins = false;\r\n       
     // We create a switch to cover the different possible selections of the player.\r\n       
     switch (this.playerSelection) {\r\n            // In the case that the player
-    has selected \"rock\"...\r\n            case 0:\r\n                // We check
-    if the opponent selected \"scissors\" and set the playerWins\r\n               
-    if (this.opponentSelection == 2) {\r\n                    playerWins = true;\r\n               
-    }\r\n                break;\r\n            // In the case that the player has
-    selected \"rock\"... - - - - - - - - - - - - - - - - FIX\r\n            case
-    1:\r\n                // We check if the opponent selected \"scissors\" and set
-    the playerWins\r\n                if (this.opponentSelection == 0) {\r\n                   
-    playerWins = true;\r\n                }\r\n                break;\r\n           
-    // In the case that the player has selected \"scissors\"...\r\n            case
-    2:\r\n                // We check if the opponent selected \"paper\" and set
-    the playerWins\r\n                if (this.opponentSelection == 1) {\r\n                   
-    playerWins = true;\r\n                }\r\n                break;\r\n       
-    }\r\n        // We start the coroutine to resolve the situation. \r\n       
-    this.StartCoroutine(this.WaitToResolve(playerWins));\r\n    }\r\n    // This
-    function is a Coroutine that shows the counter before start the game\r\n    *WaitToStart()
-    {\r\n        // Set a counter with the variable previously assigned by inspector
-    with the time to start\r\n        let counter = this.counterToStart;\r\n       
-    // Call the function of the UIManager to show the number on the text\r\n       
-    UIManager_1.default.instance.counterText.text = counter.toString();\r\n       
-    // Deactivate the play button of the UI using the variable of the UIManager\r\n       
-    UIManager_1.default.instance.playBtn.gameObject.SetActive(false);\r\n       
+    has selected \"rock\"...\r\n            case Hands.rock:\r\n                //
+    We check if the opponent selected \"scissors\" and set the playerWins\r\n               
+    if (this.opponentSelection == Hands.scissors) {\r\n                    playerWins
+    = true;\r\n                }\r\n                break;\r\n            // In the
+    case that the player has selected \"paper\"...\r\n            case Hands.paper:\r\n               
+    // We check if the opponent selected \"scissors\" and set the playerWins\r\n               
+    if (this.opponentSelection == Hands.rock) {\r\n                    playerWins
+    = true;\r\n                }\r\n                break;\r\n            // In the
+    case that the player has selected \"scissors\"...\r\n            case Hands.scissors:\r\n               
+    // We check if the opponent selected \"paper\" and set the playerWins\r\n               
+    if (this.opponentSelection == Hands.paper) {\r\n                    playerWins
+    = true;\r\n                }\r\n                break;\r\n        }\r\n       
+    // We start the coroutine to resolve the situation. \r\n        this.StartCoroutine(this.WaitToResolve(playerWins));\r\n   
+    }\r\n    // This function is a Coroutine that shows the counter before start
+    the game\r\n    *WaitToStart() {\r\n        // Set a counter with the variable
+    previously assigned by inspector with the time to start\r\n        let counter
+    = this.counterToStart;\r\n        // Call the function of the UIManager to show
+    the number on the text\r\n        UIManager_1.default.instance.counterText.text
+    = counter.toString();\r\n        // Deactivate the play button of the UI using
+    the variable of the UIManager\r\n        UIManager_1.default.instance.playBtn.gameObject.SetActive(false);\r\n       
     // Activate the object of the counter in the UI using the variable of the UIManager\r\n       
     UIManager_1.default.instance.counterObj.SetActive(true);\r\n        // Here we
     start a loop to count by seconds and show that on the counter object\r\n       
@@ -109,7 +113,10 @@ ScriptedImporter:
     that determines if the player won or not.\r\n        // If not, we will call
     the same function but specifying that the winner was the CPU.\r\n        if (playerWins)\r\n           
     UIManager_1.default.instance.ShowEndPanel(\"Player\", true);\r\n        else\r\n           
-    UIManager_1.default.instance.ShowEndPanel(\"CPU\", false);\r\n    }\r\n}\r\nexports.default
-    = GameManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZU1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHYW1lTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF3RTtBQUN4RSxpREFBcUQ7QUFDckQsMkNBQWlEO0FBRWpELDZIQUE2SDtBQUM3SCxNQUFxQixXQUFZLFNBQVEscUNBQXFCO0lBUTFELGtFQUFrRTtJQUNsRSxLQUFLO1FBRUQsb0JBQW9CO1FBQ3BCLElBaEJDLHFDQUFxQixDQW9LNEIsYUFBYyxDQXBKM0QsV0FBVyxDQUFDLFFBQVEsRUFBSSxJQUFJO1lBQUcsd0JBQVUsQ0FBQyxPQUFPLENBQUUsSUFBSSxDQUFDLFVBQVUsQ0FBRSxDQUFDOztZQUNyRSxXQUFXLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztJQUNyQyxDQUFDO0lBRUQsMkRBQTJEO0lBQ3BELGdCQUFnQixDQUFHLFNBQWM7UUFFcEMsMkRBQTJEO1FBQzNELG1CQUFTLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBRSxTQUFTLENBQUUsQ0FBQztRQUVoRCwyQkFBMkI7UUFDM0IsSUFBSSxDQUFDLGVBQWUsR0FBRyxTQUFTLENBQUM7SUFDckMsQ0FBQztJQUVELHdFQUF3RTtJQUNqRSxrQkFBa0I7UUFFckIsdURBQXVEO1FBRXZELCtCQUErQjtRQUMvQixJQUFJLEdBQUcsR0FBUSxDQUFDLENBQUM7UUFFakIsbUZBQW1GO1FBQ25GLEdBQUcsR0FBRyxvQkFBTSxDQUFDLEtBQUssQ0FBRSxDQUFDLEVBQUUsQ0FBQyxDQUFFLENBQUM7UUFFM0IsdURBQXVEO1FBQ3ZELEdBQUcsR0FBRyxtQkFBSyxDQUFDLFVBQVUsQ0FBRSxHQUFHLENBQUUsQ0FBQztRQUU5QixxREFBcUQ7UUFDckQsSUFBSSxDQUFDLGlCQUFpQixHQUFHLEdBQUcsQ0FBQztRQUU3Qiw2REFBNkQ7UUFDN0QsbUJBQVMsQ0FBQyxRQUFRLENBQUMsaUJBQWlCLENBQUUsR0FBRyxDQUFFLENBQUM7UUFFNUMsc0JBQXNCO1FB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","assetPath":"Assets/Project/_Scripts/Managers/GameManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"counterToStart","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"GameManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: 316ba97a71246e50765828e1f6cdeb28
+    UIManager_1.default.instance.ShowEndPanel(\"CPU\", false);\r\n    }\r\n    GetHand(hand)
+    {\r\n        if (hand == 0)\r\n            return Hands.rock;\r\n        if (hand
+    == 1)\r\n            return Hands.paper;\r\n        if (hand == 2)\r\n           
+    return Hands.scissors;\r\n    }\r\n}\r\nexports.default = GameManager;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZU1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHYW1lTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2Q0FBd0U7QUFDeEUsaURBQXFEO0FBQ3JELDJDQUFpRDtBQUVqRCx5Q0FBeUM7QUFDekMsSUFBWSxLQUVYO0FBRkQsV0FBWSxLQUFLO0lBQ2IsaUNBQUksQ0FBQTtJQUFFLG1DQUFLLENBQUE7SUFBRSx5Q0FBUSxDQUFBO0FBQ3pCLENBQUMsRUFGVyxLQUFLLEdBQUwsYUFBSyxLQUFMLGFBQUssUUFFaEI7QUFFRCw2SEFBNkg7QUFDN0gsTUFBcUIsV0FBWSxTQUFRLHFDQUFxQjtJQU8xRCxrRUFBa0U7SUFDbEUsS0FBSztRQUNELG9CQUFvQjtRQUNwQixJQW5CQyxxQ0FBcUIsQ0FnS0EsYUFBYyxDQTdJL0IsV0FBVyxDQUFDLFFBQVEsRUFBSSxJQUFJO1lBQUcsd0JBQVUsQ0FBQyxPQUFPLENBQUUsSUFBSSxDQUFDLFVBQVUsQ0FBRSxDQUFDOztZQUNyRSxXQUFXLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztJQUNyQyxDQUFDO0lBRUQsMkRBQTJEO0lBQ3BELGdCQUFnQixDQUFHLFNBQWM7UUFDcEMsMkRBQTJEO1FBQzNELG1CQUFTLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBRSxTQUFTLENBQUUsQ0FBQztRQUVoRCwyQkFBMkI7UUFDM0IsSUFBSSxDQUFDLGVBQWUsR0FBRyxTQUFTLENBQUM7UUFFakMsSUFBSSxJQUFXLENBQUM7UUFDaEIsSUFBSSxHQUFHLFNBQVMsQ0FBQztRQUNqQixPQUFPLENBQUMsR0FBRyxDQUFFLE9BQU8sR0FBRyxJQUFJLENBQUUsQ0FBQztJQUNsQyxDQUFDO0lBRUQsd0VBQXdFO0lBQ2pFLGtCQUFrQjtRQUNyQix1REFBdUQ7UUFFdkQsK0JBQStCO1FBQy9CLElBQUksR0FBRyxHQUFRLENBQUMsQ0FBQztRQUVqQixtRkFBbUY7UUFDbkYsR0FBRyxHQUFHLG9CQUFNLENB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","assetPath":"Assets/Project/_Scripts/Managers/GameManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"counterToStart","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"GameManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: ccc06d684a71415542d0c859b383fb6d
   onlyWriteTrigger: 0
