@@ -2,11 +2,10 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { SpawnInfo, ZepetoCharacter, ZepetoCharacterCreator } from 'ZEPETO.Character.Controller';
 
 // This class instace a NPC character with an zepeto id
-export default class NPCCreator extends ZepetoScriptBehaviour {
-    // ZEPETO ID of the NPC
-    public zepetoId: string;
-    // NPC character object
-    private _npc: ZepetoCharacter;
+export default class NPCCreator extends ZepetoScriptBehaviour 
+{
+    public zepetoId: string; // ZEPETO ID of the NPC
+    private _npc: ZepetoCharacter;  // NPC character object
 
     Start () {
         // Create a new instance of SpawnInfo and set its position and rotation based on the object's transform

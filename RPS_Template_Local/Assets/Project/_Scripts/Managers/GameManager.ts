@@ -1,6 +1,6 @@
 import { GameObject, Mathf, Random, WaitForSeconds } from 'UnityEngine';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import UIManager from './UIManager';
+import UIManager, { UIPanel } from './UIManager';
 
 // This class is responsible for handling everything related to the gameplay of the game, calling other managers if necessary.
 export default class GameManager extends ZepetoScriptBehaviour {
@@ -136,13 +136,12 @@ export default class GameManager extends ZepetoScriptBehaviour {
         UIManager.instance.counterObj.SetActive( false );
         // Activate the play button
         UIManager.instance.playBtn.gameObject.SetActive( true );
-        // Deactivate the startPanel 
-        UIManager.instance.startPanel.SetActive( false );
-        // Activate the gamePanel
-        UIManager.instance.gamePanel.SetActive( true );
+
+        // Call to the function ShowPanel to activate the game panel
+        UIManager.instance.ShowPanel( UIPanel.Game );
+
         // With this, now we are showing the game panel to start play
         // and we reset the start panel if the player wants to play again
-
     }
 
     // This function is a coroutine that handles resolving the winner, resetting the selections, and passing some time to the winner later on

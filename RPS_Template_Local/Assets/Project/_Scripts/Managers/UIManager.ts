@@ -3,6 +3,11 @@ import { Color, GameObject, Mathf, Random, Sprite } from 'UnityEngine';
 import { RoundedRectangle, RoundedRectangleButton, ZepetoText } from 'ZEPETO.World.Gui';
 import GameManager from './GameManager';
 
+// Enum  with the posible panels to show
+export enum UIPanel {
+    Start, Game, End, None
+}
+
 // This class is responsible for controlling everything related to the UI and its interactions.
 export default class UIManager extends ZepetoScriptBehaviour {
     public static instance: UIManager; // Singleton instance variable
@@ -132,10 +137,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
         } );
 
         // Deactivate all the panels and the exit button
-        this.startPanel.SetActive( false );
-        this.gamePanel.SetActive( false );
-        this.endPanel.SetActive( false );
-        this.exitBtn.gameObject.SetActive( false );
+        this.ShowPanel();
     }
 
     // This functions sets the sprite of the player hand in the selected one
@@ -178,5 +180,33 @@ export default class UIManager extends ZepetoScriptBehaviour {
         // Check if the player wins and select the correspondent color
         if ( playerWins ) this.endPanelBg.color = this.playerWinColor;
         else this.endPanelBg.color = this.cpuWinColor;
+    }
+
+    // This function is responsible for, based on the received parameter, selecting which panel should be displayed while hiding the others.
+    ShowPanel ( panel: UIPanel = UIPanel.None ) {
+        // Deactivate all the panels
+        this.startPanel.SetActive( false );
+        this.gamePanel.SetActive( false );
+        this.endPanel.SetActive( false );
+        // Then switch on the parameter received to active one of them
+        switch ( panel )
+        {
+            case UIPanel.Start:
+                // Activate the startPanel
+                this.startPanel.SetActive( true );
+                break;
+            case UIPanel.Game:
+                // Activate the gamePanel
+                this.gamePanel.SetActive( true );
+                break;
+            case UIPanel.End:
+                // Activate the endPanel
+                this.endPanel.SetActive( true );
+                break;
+            default:
+                // If the parameter is none or not defined, also deactivate the exitBtn
+                this.exitBtn.gameObject.SetActive( false );
+                break;
+        }
     }
 }
