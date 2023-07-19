@@ -2,62 +2,60 @@ import { GameObject, Mathf, Random, WaitForSeconds } from 'UnityEngine';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import UIManager, { UIPanel } from './UIManager';
 
-// This class is responsible for handling everything related to the gameplay of the game, calling other managers if necessary.
-export default class GameManager extends ZepetoScriptBehaviour {
+// This class is responsible for handling everything related to the gameplay of the game, calling other managers if necessary
+export default class GameManager extends ZepetoScriptBehaviour 
+{
     public static instance: GameManager; // Singleton instance variable
-
-    @SerializeField() counterToStart: number; // Variable to set the waiting time before starting a match.
-
+    
+    @SerializeField() private counterToStart: number; // Variable to set the waiting time before starting a match
     private playerSelection: number; // Player selection variable will contain the hand selection of the player
     private opponentSelection: number; // Opponent selection variable will contain the hand selection of the opponent
 
-    // Awake is called when an enabled script instance is being loaded.
-    Awake (): void {
+    // Awake is called when an enabled script instance is being loaded
+    Awake (): void 
+    {
         // Singleton pattern
         if ( GameManager.instance != null ) GameObject.Destroy( this.gameObject );
         else GameManager.instance = this;
     }
 
     // This functions will set the selection of the player hand
-    public SelectPlayerHand ( selection: int ) {
+    public SelectPlayerHand ( selection: int ) 
+    {
         // Call to the function SelectPlayerSprite on the UIManager
-        UIManager.instance.SelectPlayerSprite( selection );
+        UIManager.instance.SetPlayerSprite( selection );
 
         // Set the player selection
         this.playerSelection = selection;
-
     }
 
     // This function will select the opponent hand (rock, paper or scissors)
-    public SelectOpponentHand () {
+    public SelectOpponentHand () 
+    {
         // first we will let the variables to get a random hand
 
         // Setting the random selection
         let rnd: int = 0;
 
-        // Set the limit on the sprite amount on the UIManager
-        let limit: int = 3;
-
-        // Select a random number between 0 and the limit
-        rnd = Random.Range( 0, limit );
+        // Select a random number between 0 and the max ammount of options (In this case 3)
+        rnd = Random.Range( 0, 3 );
 
         // if rnd gets a float as result it gets rounded to int
         rnd = Mathf.FloorToInt( rnd );
-
-        // console.log( "Rnd: " + rnd );
-
-        // Call to the function SelectOpponentSprite on the UIManager
-        UIManager.instance.SelectOpponentSprite( rnd );
-
+        
         // Set the opponent selection to the random selection
         this.opponentSelection = rnd;
-        this.Match();
+
+        // Call to the function SelectOpponentSprite on the UIManager
+        UIManager.instance.SetOpponentSprite( rnd );
+
+        // Evaluate this match
+        this.CompareHands();
     }
 
     // This function is responsible for comparing the hands selected by the player and the CPU, determining who will be the winner.
-    Match () {
-        // console.log( "Player: " + this.playerSelection + " // Opponent: " + this.opponentSelection );
-
+    CompareHands () 
+    {
         // We check if both selected the same thing.
         if ( this.playerSelection == this.opponentSelection )
         {
@@ -79,7 +77,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
                 // We check if the opponent selected "scissors" and set the playerWins
                 if ( this.opponentSelection == 2 ) { playerWins = true; }
                 break;
-            // In the case that the player has selected "rock"...
+            // In the case that the player has selected "rock"... - - - - - - - - - - - - - - - - FIX
             case 1:
                 // We check if the opponent selected "scissors" and set the playerWins
                 if ( this.opponentSelection == 0 ) { playerWins = true; }
@@ -97,7 +95,8 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
 
     // This function is a Coroutine that shows the counter before start the game
-    *WaitToStart () {
+    *WaitToStart () 
+    {
         // Set a counter with the variable previously assigned by inspector with the time to start
         let counter: int = this.counterToStart;
 
@@ -125,6 +124,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
             // We chekc if the counter is 0 then we break the loop to continue with the code
             if ( counter == 0 ) break;
         }
+
         // Update the counter text to "START!" in the UI using the variable of the UIManager
         UIManager.instance.counterText.text = "START!";
 
@@ -145,7 +145,8 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
 
     // This function is a coroutine that handles resolving the winner, resetting the selections, and passing some time to the winner later on
-    *WaitToResolve ( playerWins: bool, draw: bool = false ) {
+    *WaitToResolve ( playerWins: bool, draw: bool = false ) 
+    {
         // Here we wait 1 second before continue with the code
         yield new WaitForSeconds( 1 );
 

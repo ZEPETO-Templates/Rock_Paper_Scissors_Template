@@ -7,7 +7,8 @@ export default class NPCCreator extends ZepetoScriptBehaviour
     public zepetoId: string; // ZEPETO ID of the NPC
     private _npc: ZepetoCharacter;  // NPC character object
 
-    Start () {
+    Start () 
+    {
         // Create a new instance of SpawnInfo and set its position and rotation based on the object's transform
         const spawnInfo = new SpawnInfo();
         spawnInfo.position = this.transform.position;

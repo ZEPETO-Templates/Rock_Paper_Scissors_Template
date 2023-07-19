@@ -1,5 +1,5 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { Color, GameObject, Mathf, Random, Sprite } from 'UnityEngine';
+import { Color, GameObject, Sprite } from 'UnityEngine';
 import { RoundedRectangle, RoundedRectangleButton, ZepetoText } from 'ZEPETO.World.Gui';
 import GameManager from './GameManager';
 
@@ -9,7 +9,8 @@ export enum UIPanel {
 }
 
 // This class is responsible for controlling everything related to the UI and its interactions.
-export default class UIManager extends ZepetoScriptBehaviour {
+export default class UIManager extends ZepetoScriptBehaviour 
+{
     public static instance: UIManager; // Singleton instance variable
 
     public rockSprite: Sprite; // Reference of the sprite of the rock
@@ -49,145 +50,72 @@ export default class UIManager extends ZepetoScriptBehaviour {
     private playerLosesAmount: number = 0; // Variable to save the amount of loses of the player
 
     // Awake is called when an enabled script instance is being loaded.
-    Awake () {
+    Awake () 
+    {
         // Singleton pattern
         if ( UIManager.instance != null ) GameObject.Destroy( this.gameObject );
         else UIManager.instance = this;
     }
 
     // Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
-    Start () {
+    Start () 
+    {
         // Call the function to set the logic of the buttons
         this.SetButtonLogic();
     }
-
-    // This function displays the EndPanel using the parameters to show the winner's name and determine if the player won or not
-    ShowEndPanel ( winner: string, playerWins: bool ) {
+    
+    // This function displays the EndPanel and show who is the winner
+    ShowEndPanel ( winner: string, playerWins: bool ) 
+    {
         // Deactivate the gamePanel
         this.gamePanel.SetActive( false );
-
+        
         // Activate the endpanel
         this.endPanel.SetActive( true );
-
+        
         // Call to the EndPanelColorChane function
-        this.EndPanelColorChange( playerWins );
-
+        this.ChangeEndPanelColor( playerWins );
+        
         // Set the winnertext to the parameter passed
         this.winnerText.text = winner;
-
+        
         // Check if the player wins and increase the wins o loses amount
         if ( playerWins ) this.playerWinsAmount++;
         else this.playerLosesAmount++;
-
+        
         // Then set the wins and the loses amount text with the variables
         this.winsAmount.text = this.playerWinsAmount.toString();
         this.losesAmount.text = this.playerLosesAmount.toString();
     }
-
-    // This function shows the draw panel when the player and cpu select the same 
-    ShowDrawEndPanel () {
+    
+    // This function shows the draw panel
+    ShowDrawEndPanel () 
+    {
         // Deactivate the game panel
         this.gamePanel.SetActive( false );
-
+        
         // Activate the end panel
         this.endPanel.SetActive( true );
 
         // Call to the EndPanelColorChane function
-        this.EndPanelColorChange( false, true );
-
+        this.ChangeEndPanelColor( false, true );
+        
         // Set the winner text to Draw
         this.winnerText.text = "Draw!";
-
+        
         // Set the wins and the loses amount text with the variables
         this.winsAmount.text = this.playerWinsAmount.toString();
         this.losesAmount.text = this.playerLosesAmount.toString();
     }
-
-    // This function set the logic of the buttons off the ui
-    SetButtonLogic () {
-        // Set the function of the click on the rock button
-        this.rockBtn.OnClick.AddListener( () => {
-            // Call the function on the GameManager instance to select the hand
-            GameManager.instance.SelectPlayerHand( 0 );
-
-            // Call the function on the GameManager instance to select the opponent hand
-            GameManager.instance.SelectOpponentHand();
-        } );
-
-        // Set the function of the click on the paper button
-        this.paperBtn.OnClick.AddListener( () => {
-            // Call the function on the GameManager instance to select the hand
-            GameManager.instance.SelectPlayerHand( 1 );
-
-            // Call the function on the GameManager instance to select the opponent hand
-            GameManager.instance.SelectOpponentHand();
-        } );
-
-        // Set the function of the click on the scissors button
-        this.scissorsBtn.OnClick.AddListener( () => {
-            // Call the function on the GameManager instance to select the hand
-            GameManager.instance.SelectPlayerHand( 2 );
-
-            // Call the function on the GameManager instance to select the opponent hand
-            GameManager.instance.SelectOpponentHand();
-        } );
-
-        this.playBtn.OnClick.AddListener( () => {
-            this.StartCoroutine( GameManager.instance.WaitToStart() );
-        } );
-
-        // Deactivate all the panels and the exit button
-        this.ShowPanel();
-    }
-
-    // This functions sets the sprite of the player hand in the selected one
-    public SelectPlayerSprite ( selection: number ): void {
-        // Set the icon of the opponent on the selection based on the array gameSprites
-        // this.playerIcon.Icon = this.gameSprites[ selection ];
-        this.playerIcon.Icon = this.SpriteSelection( selection );
-        this.playerIcon.IconScale = 2;
-    }
-
-    // This functions sets the sprite of the opponent hand in the selected one
-    public SelectOpponentSprite ( selection: number ): void {
-        // Set the icon of the opponent on the selection based on the array gameSprites
-        // this.opponentIcon.Icon = this.gameSprites[ selection ];
-        this.opponentIcon.Icon = this.SpriteSelection( selection );
-        this.opponentIcon.IconScale = 2;
-    }
-
-    // This functions set the scale of the icons of the selection in 0
-    public CleanSelections () {
-        this.opponentIcon.IconScale = 0;
-        this.playerIcon.IconScale = 0;
-    }
-
-    // This function select and return a sprite based on the selection parameter
-    SpriteSelection ( selection: number ): Sprite {
-        if ( selection == 0 ) return this.rockSprite;
-        if ( selection == 1 ) return this.paperSprite;
-        if ( selection == 2 ) return this.scissorsSprite;
-    }
-
-    // This function is responsible for changing the background color of the EndPanel according to who wins or if there is a tie
-    EndPanelColorChange ( playerWins: bool, draw: bool = false ) {
-        // If there is a draw, then the set the color and stop the progress of the function
-        if ( draw )
-        {
-            this.endPanelBg.color = Color.white;
-            return;
-        }
-        // Check if the player wins and select the correspondent color
-        if ( playerWins ) this.endPanelBg.color = this.playerWinColor;
-        else this.endPanelBg.color = this.cpuWinColor;
-    }
-
+    
     // This function is responsible for, based on the received parameter, selecting which panel should be displayed while hiding the others.
-    ShowPanel ( panel: UIPanel = UIPanel.None ) {
+    ShowPanel ( panel: UIPanel = UIPanel.None ) 
+    {
         // Deactivate all the panels
         this.startPanel.SetActive( false );
         this.gamePanel.SetActive( false );
         this.endPanel.SetActive( false );
+
         // Then switch on the parameter received to active one of them
         switch ( panel )
         {
@@ -208,5 +136,90 @@ export default class UIManager extends ZepetoScriptBehaviour {
                 this.exitBtn.gameObject.SetActive( false );
                 break;
         }
+    }
+    
+    // This functions set the scale of the icons of the selection in 0
+    public CleanSelections () 
+    {
+        this.opponentIcon.IconScale = 0;
+        this.playerIcon.IconScale = 0;
+    }
+    
+    // This function is responsible for changing the background color of the EndPanel according to who wins or if there is a tie
+    ChangeEndPanelColor ( playerWins: bool, draw: bool = false ) 
+    {
+        // If there is a draw, then the set the color and stop the progress of the function
+        if ( draw )
+        {
+            this.endPanelBg.color = Color.white;
+            return;
+        }
+        // Check if the player wins and select the correspondent color
+        if ( playerWins ) this.endPanelBg.color = this.playerWinColor;
+        else this.endPanelBg.color = this.cpuWinColor;
+    }
+                    
+    // This function set the logic of the buttons off the ui
+    SetButtonLogic () 
+    {
+        // Set the function of the click on the rock button
+        this.rockBtn.OnClick.AddListener( () => {
+            // Call the function on the GameManager instance to select the hand
+            GameManager.instance.SelectPlayerHand( 0 );
+    
+            // Call the function on the GameManager instance to select the opponent hand
+            GameManager.instance.SelectOpponentHand();
+        } );
+    
+        // Set the function of the click on the paper button
+        this.paperBtn.OnClick.AddListener( () => {
+            // Call the function on the GameManager instance to select the hand
+            GameManager.instance.SelectPlayerHand( 1 );
+    
+            // Call the function on the GameManager instance to select the opponent hand
+            GameManager.instance.SelectOpponentHand();
+        } );
+    
+        // Set the function of the click on the scissors button
+        this.scissorsBtn.OnClick.AddListener( () => {
+            // Call the function on the GameManager instance to select the hand
+            GameManager.instance.SelectPlayerHand( 2 );
+    
+            // Call the function on the GameManager instance to select the opponent hand
+            GameManager.instance.SelectOpponentHand();
+        } );
+    
+        this.playBtn.OnClick.AddListener( () => {
+            this.StartCoroutine( GameManager.instance.WaitToStart() );
+        } );
+    
+        // Deactivate all the panels and the exit button
+        this.ShowPanel();
+    }
+
+    // This functions sets the sprite of the player hand in the selected one
+    public SetPlayerSprite ( selection: number ) 
+    {
+        // Set the icon of the opponent on the selection based on the array gameSprites
+        // this.playerIcon.Icon = this.gameSprites[ selection ];
+        this.playerIcon.Icon = this.GetHandSprite( selection );
+        this.playerIcon.IconScale = 2;
+    }
+    
+    // This functions sets the sprite of the opponent hand in the selected one
+    public SetOpponentSprite ( selection: number ) 
+    {
+        // Set the icon of the opponent on the selection based on the array gameSprites
+        // this.opponentIcon.Icon = this.gameSprites[ selection ];
+        this.opponentIcon.Icon = this.GetHandSprite( selection );
+        this.opponentIcon.IconScale = 2;
+    }
+    
+    // This function select and return a sprite based on the selection parameter
+    GetHandSprite ( selection: number ): Sprite 
+    {
+        if ( selection == 0 ) return this.rockSprite;
+        if ( selection == 1 ) return this.paperSprite;
+        if ( selection == 2 ) return this.scissorsSprite;
     }
 }
