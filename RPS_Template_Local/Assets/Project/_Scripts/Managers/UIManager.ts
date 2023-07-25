@@ -16,9 +16,11 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public paperSprite: Sprite; // Reference of the sprite of the paper
     public scissorsSprite: Sprite; // Reference of the sprite of the scissors
 
-    @Header( "Counter" )
+    @Header( "Info showing" )
     public counterObj: GameObject; // Reference to the counter
     public counterText: ZepetoText; // Reference to the text of the counter
+    public winsLosesObj: GameObject; // Reference to the winsLoses object
+    public winsLosesCounter: ZepetoText; // Reference to the counter of wins and loses
 
     @Header( "Panels" )
     @SerializeField() startPanel: GameObject; // Reference to the start panel
@@ -61,93 +63,6 @@ export default class UIManager extends ZepetoScriptBehaviour {
         this.SetButtonLogic();
     }
 
-    // This function displays the EndPanel and show who is the winner
-    ShowEndPanel ( winner: string, playerWins: bool ) {
-        // Deactivate the gamePanel
-        this.gamePanel.SetActive( false );
-
-        // Activate the endpanel
-        this.endPanel.SetActive( true );
-
-        // Call to the EndPanelColorChane function
-        this.ChangeEndPanelColor( playerWins );
-
-        // Set the winnertext to the parameter passed
-        this.winnerText.text = winner;
-
-        // Check if the player wins and increase the wins o loses amount
-        if ( playerWins ) this.playerWinsAmount++;
-        else this.playerLosesAmount++;
-
-        // Then set the wins and the loses amount text with the variables
-        this.winsAmount.text = this.playerWinsAmount.toString();
-        this.losesAmount.text = this.playerLosesAmount.toString();
-    }
-
-    // This function shows the draw panel
-    ShowDrawEndPanel () {
-        // Call the function to show the end panel
-        this.ShowPanel( UIPanel.End );
-
-        // Call to the EndPanelColorChane function
-        this.ChangeEndPanelColor( false, true );
-
-        // Set the winner text to Draw
-        this.winnerText.text = "Draw!";
-
-        // Set the wins and the loses amount text with the variables
-        this.winsAmount.text = this.playerWinsAmount.toString();
-        this.losesAmount.text = this.playerLosesAmount.toString();
-    }
-
-    // This function is responsible for, based on the received parameter, selecting which panel should be displayed while hiding the others.
-    ShowPanel ( panel: UIPanel = UIPanel.None ) {
-        // Deactivate all the panels
-        this.startPanel.SetActive( false );
-        this.gamePanel.SetActive( false );
-        this.endPanel.SetActive( false );
-
-        // Then switch on the parameter received to active one of them
-        switch ( panel )
-        {
-            case UIPanel.Start:
-                // Activate the startPanel
-                this.startPanel.SetActive( true );
-                break;
-            case UIPanel.Game:
-                // Activate the gamePanel
-                this.gamePanel.SetActive( true );
-                break;
-            case UIPanel.End:
-                // Activate the endPanel
-                this.endPanel.SetActive( true );
-                break;
-            default:
-                // If the parameter is none or not defined, also deactivate the exitBtn
-                this.exitBtn.gameObject.SetActive( false );
-                break;
-        }
-    }
-
-    // This functions set the scale of the icons of the selection in 0
-    public CleanSelections () {
-        this.opponentIcon.IconScale = 0;
-        this.playerIcon.IconScale = 0;
-    }
-
-    // This function is responsible for changing the background color of the EndPanel according to who wins or if there is a tie
-    ChangeEndPanelColor ( playerWins: bool, draw: bool = false ) {
-        // If there is a draw, then the set the color and stop the progress of the function
-        if ( draw )
-        {
-            this.endPanelBg.color = Color.white;
-            return;
-        }
-        // Check if the player wins and select the correspondent color
-        if ( playerWins ) this.endPanelBg.color = this.playerWinColor;
-        else this.endPanelBg.color = this.cpuWinColor;
-    }
-
     // This function set the logic of the buttons off the ui
     SetButtonLogic () {
         // Set the function of the click on the rock button
@@ -183,6 +98,104 @@ export default class UIManager extends ZepetoScriptBehaviour {
 
         // Deactivate all the panels and the exit button
         this.ShowPanel();
+    }
+
+    // This function updates the counter of wins and loses of the ui
+    UpdateWinsLosesPanel () {
+        // Replace the text of winsLosesCounter to show the updated number of them
+        this.winsLosesCounter.text = this.playerWinsAmount + " / " + this.playerLosesAmount;
+    }
+
+    // This function displays the EndPanel and show who is the winner
+    ShowEndPanel ( winner: string, playerWins: bool ) {
+        // Deactivate the gamePanel
+        this.gamePanel.SetActive( false );
+
+        // Activate the endpanel
+        this.endPanel.SetActive( true );
+
+        // Call to the EndPanelColorChane function
+        this.ChangeEndPanelColor( playerWins );
+
+        // Set the winnertext to the parameter passed
+        this.winnerText.text = winner;
+
+        // Check if the player wins and increase the wins o loses amount
+        if ( playerWins ) this.playerWinsAmount++;
+        else this.playerLosesAmount++;
+
+        // Then set the wins and the loses amount text with the variables
+        this.winsAmount.text = this.playerWinsAmount.toString();
+        this.losesAmount.text = this.playerLosesAmount.toString();
+
+        // Call to the Update wins and loses function
+        this.UpdateWinsLosesPanel();
+    }
+
+    // This function shows the draw panel
+    ShowDrawEndPanel () {
+        // Call the function to show the end panel
+        this.ShowPanel( UIPanel.End );
+
+        // Call to the EndPanelColorChane function
+        this.ChangeEndPanelColor( false, true );
+
+        // Set the winner text to Draw
+        this.winnerText.text = "Draw!";
+
+        // Set the wins and the loses amount text with the variables
+        this.winsAmount.text = this.playerWinsAmount.toString();
+        this.losesAmount.text = this.playerLosesAmount.toString();
+    }
+
+    // This function is responsible for, based on the received parameter, selecting which panel should be displayed while hiding the others.
+    ShowPanel ( panel: UIPanel = UIPanel.None ) {
+        // Deactivate all the panels keeping active the winslosesobj
+        this.startPanel.SetActive( false );
+        this.gamePanel.SetActive( false );
+        this.endPanel.SetActive( false );
+        this.winsLosesObj.SetActive( true );
+
+        // Then switch on the parameter received to active one of them
+        switch ( panel )
+        {
+            case UIPanel.Start:
+                // Activate the startPanel
+                this.startPanel.SetActive( true );
+                break;
+            case UIPanel.Game:
+                // Activate the gamePanel
+                this.gamePanel.SetActive( true );
+                break;
+            case UIPanel.End:
+                // Activate the endPanel
+                this.endPanel.SetActive( true );
+                break;
+            default:
+                // If the parameter is none or not defined, also deactivate the exitBtn
+                this.exitBtn.gameObject.SetActive( false );
+                this.winsLosesObj.SetActive( false );
+                break;
+        }
+    }
+
+    // This functions set the scale of the icons of the selection in 0
+    public CleanSelections () {
+        this.opponentIcon.IconScale = 0;
+        this.playerIcon.IconScale = 0;
+    }
+
+    // This function is responsible for changing the background color of the EndPanel according to who wins or if there is a tie
+    ChangeEndPanelColor ( playerWins: bool, draw: bool = false ) {
+        // If there is a draw, then the set the color and stop the progress of the function
+        if ( draw )
+        {
+            this.endPanelBg.color = Color.white;
+            return;
+        }
+        // Check if the player wins and select the correspondent color
+        if ( playerWins ) this.endPanelBg.color = this.playerWinColor;
+        else this.endPanelBg.color = this.cpuWinColor;
     }
 
     // This function is a Coroutine that shows the counter before start the game
