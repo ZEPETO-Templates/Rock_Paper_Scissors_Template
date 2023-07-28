@@ -4,7 +4,7 @@ import UIManager, { UIPanel } from './UIManager';
 
 // Enum with the posibles hands to select
 export enum Hands {
-    rock, paper, scissors
+    Rock, Paper, Scissors
 }
 
 // This class is responsible for handling everything related to the gameplay of the game, calling other managers if necessary
@@ -24,7 +24,7 @@ export default class GameManager extends ZepetoScriptBehaviour {
     }
 
     // This functions will set the selection of the player hand
-    public SelectPlayerHand ( selection: int ) {
+    public SelectPlayerHand ( selection: number ) {
         // Call to the function SelectPlayerSprite on the UIManager
         UIManager.instance.SetPlayerSprite( selection );
 
@@ -74,19 +74,19 @@ export default class GameManager extends ZepetoScriptBehaviour {
         switch ( this.playerSelection )
         {
             // In the case that the player has selected "rock"...
-            case Hands.rock:
+            case Hands.Rock:
                 // We check if the opponent selected "scissors" and set the playerWins
-                if ( this.opponentSelection == Hands.scissors ) { playerWins = true; }
+                if ( this.opponentSelection == Hands.Scissors ) { playerWins = true; }
                 break;
             // In the case that the player has selected "paper"...
-            case Hands.paper:
+            case Hands.Paper:
                 // We check if the opponent selected "scissors" and set the playerWins
-                if ( this.opponentSelection == Hands.rock ) { playerWins = true; }
+                if ( this.opponentSelection == Hands.Rock ) { playerWins = true; }
                 break;
             // In the case that the player has selected "scissors"...
-            case Hands.scissors:
+            case Hands.Scissors:
                 // We check if the opponent selected "paper" and set the playerWins
-                if ( this.opponentSelection == Hands.paper ) { playerWins = true; }
+                if ( this.opponentSelection == Hands.Paper ) { playerWins = true; }
                 break;
         }
 

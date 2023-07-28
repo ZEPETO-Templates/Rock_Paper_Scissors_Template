@@ -60,11 +60,11 @@ export default class UIManager extends ZepetoScriptBehaviour {
     // Start is called on the frame when a script is enabled just before any of the Update methods are called the first time.
     Start () {
         // Call the function to set the logic of the buttons
-        this.SetButtonLogic();
+        this.InitButtonsListeners();
     }
 
     // This function set the logic of the buttons off the ui
-    SetButtonLogic () {
+    InitButtonsListeners () {
         // Set the function of the click on the rock button
         this.rockBtn.OnClick.AddListener( () => {
             // Call the function on the GameManager instance to select the hand
@@ -101,7 +101,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
     }
 
     // This function updates the counter of wins and loses of the ui
-    UpdateWinsLosesPanel () {
+    UpdateWinLoseCounter () {
         // Replace the text of winsLosesCounter to show the updated number of them
         this.winsLosesCounter.text = this.playerWinsAmount + " / " + this.playerLosesAmount;
     }
@@ -129,7 +129,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
         this.losesAmount.text = this.playerLosesAmount.toString();
 
         // Call to the Update wins and loses function
-        this.UpdateWinsLosesPanel();
+        this.UpdateWinLoseCounter();
     }
 
     // This function shows the draw panel
@@ -265,8 +265,8 @@ export default class UIManager extends ZepetoScriptBehaviour {
 
     // This function select and return a sprite based on the selection parameter
     GetHandSprite ( selection: Hands ): Sprite {
-        if ( selection == Hands.rock ) return this.rockSprite;
-        if ( selection == Hands.paper ) return this.paperSprite;
-        if ( selection == Hands.scissors ) return this.scissorsSprite;
+        if ( selection == Hands.Rock ) return this.rockSprite;
+        if ( selection == Hands.Paper ) return this.paperSprite;
+        if ( selection == Hands.Scissors ) return this.scissorsSprite;
     }
 }
