@@ -1,5 +1,5 @@
 
-# Runner-Template
+# Rock-Paper-Scissors game
 
 ## 📢 About
 
