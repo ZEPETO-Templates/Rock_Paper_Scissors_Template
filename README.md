@@ -50,7 +50,7 @@ The GameManager is the most simple part, it has the variable to set the counter 
 <br><img src = "docs/images/gamemanager.png" alt = "gamemanager img"></img><br>
 
 **NPCCreator**
-The NPCCreator have his own documentation in de Zepeto Docs, there is a link to check it! https://docs.zepeto.me/studio-world/docs/creating-and-controlling-npc
+The NPCCreator has its own documentation in ZEPETO docs, here is the link to check it out! https://docs.zepeto.me/studio-world/docs/creating-and-controlling-npc
 
 **IconInteraction**
 The IconInteraction like the NPCCreator have his own docs here: 
