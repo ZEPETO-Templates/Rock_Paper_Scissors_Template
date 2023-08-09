@@ -97,8 +97,8 @@ export default class GameManager extends ZepetoScriptBehaviour {
 
     // This function is a coroutine that handles resolving the winner, resetting the selections, and passing some time to the winner later on
     *WaitToResolve ( playerWins: bool, draw: bool = false ) {
-        // Here we wait 1 second before continue with the code
-        yield new WaitForSeconds( 1 );
+        // Here we wait 2 seconds before continue with the code
+        yield new WaitForSeconds( 2 );
 
         // We check if there was a tie based on the obtained parameters.
         if ( draw )

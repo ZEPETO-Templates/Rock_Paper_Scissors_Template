@@ -721,6 +721,7 @@ MonoBehaviour:
     - exitBtn
     - winsLosesCounter
     - winsLosesObj
+    - questionMarkSprite
     unityValues:
     - {fileID: 5217070334863577519}
     - {fileID: 3975776379248820872}
@@ -745,6 +746,7 @@ MonoBehaviour:
     - {fileID: 4656423785806079113}
     - {fileID: 4656423786284506922}
     - {fileID: 4656423786038822314}
+    - {fileID: 21300000, guid: e8d8b8e330f1a0940a206e4a6b41a9e0, type: 3}
     values:
     - 
     - 
@@ -766,6 +768,7 @@ MonoBehaviour:
     - 
     - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":0.6274510025978088,\"g\":0.9333333373069763,\"b\":0.5764706134796143,\"a\":1.0}"}'
     - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":0.9333333373069763,\"g\":0.6196078658103943,\"b\":0.5764706134796143,\"a\":1.0}"}'
+    - 
     - 
     - 
     - 
