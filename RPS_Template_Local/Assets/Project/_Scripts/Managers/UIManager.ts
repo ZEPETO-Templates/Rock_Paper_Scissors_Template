@@ -1,7 +1,8 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { Color, GameObject, Sprite, WaitForSeconds } from 'UnityEngine';
+import { Color, GameObject, Mathf, Sprite, Time, WaitForSeconds } from 'UnityEngine';
 import { RoundedRectangle, RoundedRectangleButton, ZepetoText } from 'ZEPETO.World.Gui';
 import GameManager, { Hands } from './GameManager';
+import { Image } from 'UnityEngine.UI';
 
 // Enum  with the posible panels to show
 export enum UIPanel {
@@ -17,7 +18,10 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public scissorsSprite: Sprite; // Reference of the sprite of the scissors
     public questionMarkSprite: Sprite; // Reference of the question mark sprite
 
+    public blackout: Image; // Reference to the blackout image
+
     @Header("Info showing")
+    public gameNameObj: GameObject; // Reference to the game name obj
     public counterObj: GameObject; // Reference to the counter
     public counterText: ZepetoText; // Reference to the text of the counter
     public winsLosesObj: GameObject; // Reference to the winsLoses object
@@ -213,6 +217,8 @@ export default class UIManager extends ZepetoScriptBehaviour {
         this.counterText.text = counter.toString();
         // Deactivate the play button of the UI using the variable of the UIManager
         this.playBtn.gameObject.SetActive(false);
+        // Deactivate the game name object of the UI
+        this.gameNameObj.SetActive(false);
         // Activate the object of the counter in the UI using the variable of the UIManager
         this.counterObj.SetActive(true);
 
@@ -244,12 +250,36 @@ export default class UIManager extends ZepetoScriptBehaviour {
         this.counterObj.SetActive(false);
         // Activate the play button
         this.playBtn.gameObject.SetActive(true);
-
+        // Activate the game name object
+        this.gameNameObj.SetActive(false);
         // Call to the function ShowPanel to activate the game panel
         this.ShowPanel(UIPanel.Game);
 
         // With this, now we are showing the game panel to start play
         // and we reset the start panel if the player wants to play again
+    }
+
+    ResetFadeIn() {
+        this.blackout.color = new Color(this.blackout.color.r, this.blackout.color.g, this.blackout.color.b, 0);
+    }
+
+    InitFadeIn() {
+        // Init the coroutine to show the blackout
+        this.StartCoroutine(this.FadeIn());
+    }
+
+    *FadeIn() {
+        let elapsedTime = 0;
+        let fadeDuration = 0.25;
+        let maxAlpha = 0.6;
+        while (elapsedTime < fadeDuration) {
+            let newAlpha = Mathf.Lerp(0, maxAlpha, elapsedTime / fadeDuration);
+            this.blackout.color = new Color(this.blackout.color.r, this.blackout.color.g, this.blackout.color.b, newAlpha);
+            elapsedTime += Time.deltaTime;
+            yield null;
+        }
+
+        this.blackout.color = new Color(this.blackout.color.r, this.blackout.color.g, this.blackout.color.b, maxAlpha);
     }
 
     // This functions sets the sprite of the player hand in the selected one

@@ -33,6 +33,8 @@ export default class IconInteraction extends ZepetoScriptBehaviour {
             this.ControlPlayer(true);
             // Call to the function ShowIcon
             this.ShowIcon();
+            // Reset the fade
+            UIManager.instance.ResetFadeIn();
         });
     }
 
@@ -125,6 +127,7 @@ export default class IconInteraction extends ZepetoScriptBehaviour {
 
         // Activate the game canvas, the start panel, the exit button and deactivate the game and end panels
         this.gameCanvas.SetActive(true);
+        UIManager.instance.InitFadeIn();
         UIManager.instance.ShowPanel(UIPanel.Start);
         UIManager.instance.exitBtn.gameObject.SetActive(true);
 

@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -66,7 +66,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 0}
+    m_Font: {fileID: 12800000, guid: d9603d5455c3e2c429da08179c5b656c, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -149,7 +149,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 0}
+    m_Font: {fileID: 12800000, guid: d9603d5455c3e2c429da08179c5b656c, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -531,15 +531,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: iconColor.b
-      value: 1
+      value: 0.09019608
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: iconColor.g
-      value: 0.27450982
+      value: 0.74509805
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: iconColor.r
-      value: 0.36078432
+      value: 0.027450982
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _interactable
@@ -547,15 +547,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _disableColor.b
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _disableColor.g
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _disableColor.r
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
@@ -661,15 +661,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: iconColor.b
-      value: 0.2745098
+      value: 0.09019608
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: iconColor.g
-      value: 0.4084268
+      value: 0.74509805
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: iconColor.r
-      value: 1
+      value: 0.027450982
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _interactable
@@ -677,15 +677,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _disableColor.b
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _disableColor.g
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: _disableColor.r
-      value: 1
+      value: 0.7264151
       objectReference: {fileID: 0}
     - target: {fileID: 5495567826676435262, guid: 0823460d3bf532745905ba497ca4bbdf, type: 3}
       propertyPath: useIconDisableColor
