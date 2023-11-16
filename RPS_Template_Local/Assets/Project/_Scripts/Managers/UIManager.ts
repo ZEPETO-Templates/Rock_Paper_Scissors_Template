@@ -34,8 +34,8 @@ export default class UIManager extends ZepetoScriptBehaviour {
     @SerializeField() endPanelBg: RoundedRectangle; // Reference to the end panel background
 
     @Header("Game")
-    @SerializeField() playerIcon: RoundedRectangle; // Image references of the Player
-    @SerializeField() opponentIcon: RoundedRectangle; // Image references of the opponent
+    @SerializeField() playerIcon: RoundedRectangleButton; // Image references of the Player
+    @SerializeField() opponentIcon: RoundedRectangleButton; // Image references of the opponent
 
     @Header("End screen")
     @SerializeField() winnerText: ZepetoText; // Reference to the winner text
@@ -190,9 +190,9 @@ export default class UIManager extends ZepetoScriptBehaviour {
     // This functions set the icons of the selections of the players on the base state
     public CleanSelections() {
         // Set the scales on 0.6 and show the question mark on both selections
-        this.opponentIcon.IconScale = 0.6;
+      //  this.opponentIcon.IconScale = 0.6;
         this.opponentIcon.Icon = this.questionMarkSprite;
-        this.playerIcon.IconScale = 0.6;
+      //  this.playerIcon.IconScale = 0.6;
         this.playerIcon.Icon = this.questionMarkSprite;
     }
 
@@ -287,7 +287,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
         // Set the icon of the opponent on the selection based on the array gameSprites
         // this.playerIcon.Icon = this.gameSprites[ selection ];
         this.playerIcon.Icon = this.GetHandSprite(selection);
-        this.playerIcon.IconScale = 1.7;
+     //   this.playerIcon.IconScale = 1.7;
     }
 
     // This functions sets the sprite of the opponent hand in the selected one
@@ -295,7 +295,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
         // Set the icon of the opponent on the selection based on the array gameSprites
         // this.opponentIcon.Icon = this.gameSprites[ selection ];
         this.opponentIcon.Icon = this.GetHandSprite(selection);
-        this.opponentIcon.IconScale = 1.7;
+       // this.opponentIcon.IconScale = 1.7;
     }
 
     // This function select and return a sprite based on the selection parameter
