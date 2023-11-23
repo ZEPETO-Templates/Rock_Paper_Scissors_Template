@@ -251,7 +251,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
         // Activate the play button
         this.playBtn.gameObject.SetActive(true);
         // Activate the game name object
-        this.gameNameObj.SetActive(false);
+        this.gameNameObj.SetActive(true);
         // Call to the function ShowPanel to activate the game panel
         this.ShowPanel(UIPanel.Game);
 
