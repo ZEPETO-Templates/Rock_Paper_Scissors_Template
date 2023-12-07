@@ -110,7 +110,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
     // This function updates the counter of wins and loses of the ui
     UpdateWinLoseCounter() {
         // Replace the text of winsLosesCounter to show the updated number of them
-        this.winsLosesCounter.text = this.playerWinsAmount + " / " + this.playerLosesAmount;
+        this.winsLosesCounter.text = this.playerWinsAmount.toString();
     }
 
     // This function displays the EndPanel and show who is the winner
