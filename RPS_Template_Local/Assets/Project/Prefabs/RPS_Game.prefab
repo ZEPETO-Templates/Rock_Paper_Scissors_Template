@@ -564,6 +564,8 @@ MonoBehaviour:
     - blackout
     - endPanelLose
     - endPanelDraw
+    - questionPlayer
+    - questionOpponent
     unityValues:
     - {fileID: 5217070334863577519}
     - {fileID: 3975776379248820872}
@@ -593,6 +595,8 @@ MonoBehaviour:
     - {fileID: 454303228438155481}
     - {fileID: 7612591004685627857}
     - {fileID: 944149317293781389}
+    - {fileID: 21300000, guid: 5d3e98e170aa54c05a603b5a43aa604a, type: 3}
+    - {fileID: 21300000, guid: b11eb0051a41049de84b7e05ff73fd35, type: 3}
     values:
     - 
     - 
@@ -614,6 +618,8 @@ MonoBehaviour:
     - 
     - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":0.0,\"g\":0.6980392336845398,\"b\":1.0,\"a\":1.0}"}'
     - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":0.9450980424880981,\"g\":0.2862745225429535,\"b\":0.29019609093666079,\"a\":1.0}"}'
+    - 
+    - 
     - 
     - 
     - 

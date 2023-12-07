@@ -16,9 +16,14 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public rockSprite: Sprite; // Reference of the sprite of the rock
     public paperSprite: Sprite; // Reference of the sprite of the paper
     public scissorsSprite: Sprite; // Reference of the sprite of the scissors
-    public questionMarkSprite: Sprite; // Reference of the question mark sprite
-
+    public questionPlayer: Sprite; // Image references of the Player
+    public questionOpponent: Sprite;
     public blackout: Image; // Reference to the blackout image
+
+    @Header("Game")
+    @SerializeField() playerIcon: RoundedRectangleButton; // Image references of the Player
+    @SerializeField() opponentIcon: RoundedRectangleButton; // Image references of the opponent
+
 
     @Header("Info showing")
     public gameNameObj: GameObject; // Reference to the game name obj
@@ -31,21 +36,17 @@ export default class UIManager extends ZepetoScriptBehaviour {
     @SerializeField() startPanel: GameObject; // Reference to the start panel
     @SerializeField() gamePanel: GameObject; // Reference to the game panel 
     @SerializeField() endPanel: GameObject; // Reference to the end panel
-    //@SerializeField() endPanelBg: RoundedRectangle; // Reference to the end panel background
-    @SerializeField() endPanelWin: GameObject;
-    @SerializeField() endPanelLose: GameObject;
-    @SerializeField() endPanelDraw: GameObject;
-    @Header("Game")
-    @SerializeField() playerIcon: RoundedRectangleButton; // Image references of the Player
-    @SerializeField() opponentIcon: RoundedRectangleButton; // Image references of the opponent
+   
+   
+
 
     @Header("End screen")
     @SerializeField() winnerText: ZepetoText; // Reference to the winner text
     @SerializeField() winsAmount: ZepetoText; // Reference to the text that have the amount of wins of the player
     @SerializeField() losesAmount: ZepetoText; // Reference to the text that have the amount of loses of the player
-
-    @SerializeField() playerWinColor: Color; // Color to change the background of the end panel when the player wins
-    @SerializeField() cpuWinColor: Color; // Color to change the background of the end panel when the player loses
+    @SerializeField() endPanelWin: GameObject; // Reference to the end panel background 
+    @SerializeField() endPanelLose: GameObject; // Reference to the end panel background
+    @SerializeField() endPanelDraw: GameObject;// Reference to the end panel background
 
     @Header("Buttons")
     public playBtn: RoundedRectangleButton; // Reference to the play button
@@ -193,9 +194,9 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public CleanSelections() {
         // Set the scales on 0.6 and show the question mark on both selections
       //  this.opponentIcon.IconScale = 0.6;
-        this.opponentIcon.Icon = this.questionMarkSprite;
+        this.opponentIcon.Texture = this.questionOpponent.texture;
       //  this.playerIcon.IconScale = 0.6;
-        this.playerIcon.Icon = this.questionMarkSprite;
+        this.playerIcon.Texture = this.questionPlayer.texture;
     }
 
     // This function is responsible for changing the background color of the EndPanel according to who wins or if there is a tie
@@ -209,11 +210,11 @@ export default class UIManager extends ZepetoScriptBehaviour {
         }
         // Check if the player wins and select the correspondent color
         if (playerWins) {
-             this.endPanelWin.SetActive(true);
-             this.endPanelDraw.SetActive(false);
+            this.endPanelWin.SetActive(true);
+            this.endPanelDraw.SetActive(false);
             this.endPanelLose.SetActive(false);
         }
-        else  {
+        else {
             this.endPanelLose.SetActive(true);
             this.endPanelWin.SetActive(false);
             this.endPanelDraw.SetActive(false);
@@ -297,17 +298,13 @@ export default class UIManager extends ZepetoScriptBehaviour {
     // This functions sets the sprite of the player hand in the selected one
     public SetPlayerSprite(selection: number) {
         // Set the icon of the opponent on the selection based on the array gameSprites
-        // this.playerIcon.Icon = this.gameSprites[ selection ];
-        this.playerIcon.Icon = this.GetHandSprite(selection);
-     //   this.playerIcon.IconScale = 1.7;
+        this.playerIcon.Texture = this.GetHandSprite(selection).texture;
     }
 
     // This functions sets the sprite of the opponent hand in the selected one
     public SetOpponentSprite(selection: number) {
         // Set the icon of the opponent on the selection based on the array gameSprites
-        // this.opponentIcon.Icon = this.gameSprites[ selection ];
-        this.opponentIcon.Icon = this.GetHandSprite(selection);
-       // this.opponentIcon.IconScale = 1.7;
+         this.opponentIcon.Texture = this.GetHandSprite(selection).texture;
     }
 
     // This function select and return a sprite based on the selection parameter
