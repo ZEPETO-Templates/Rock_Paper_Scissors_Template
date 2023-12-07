@@ -31,8 +31,10 @@ export default class UIManager extends ZepetoScriptBehaviour {
     @SerializeField() startPanel: GameObject; // Reference to the start panel
     @SerializeField() gamePanel: GameObject; // Reference to the game panel 
     @SerializeField() endPanel: GameObject; // Reference to the end panel
-    @SerializeField() endPanelBg: RoundedRectangle; // Reference to the end panel background
-
+    //@SerializeField() endPanelBg: RoundedRectangle; // Reference to the end panel background
+    @SerializeField() endPanelWin: GameObject;
+    @SerializeField() endPanelLose: GameObject;
+    @SerializeField() endPanelDraw: GameObject;
     @Header("Game")
     @SerializeField() playerIcon: RoundedRectangleButton; // Image references of the Player
     @SerializeField() opponentIcon: RoundedRectangleButton; // Image references of the opponent
@@ -200,12 +202,22 @@ export default class UIManager extends ZepetoScriptBehaviour {
     ChangeEndPanelColor(playerWins: bool, draw: bool = false) {
         // If there is a draw, then the set the color and stop the progress of the function
         if (draw) {
-            this.endPanelBg.color = Color.white;
+            this.endPanelDraw.SetActive(true);
+            this.endPanelWin.SetActive(false);
+            this.endPanelLose.SetActive(false);
             return;
         }
         // Check if the player wins and select the correspondent color
-        if (playerWins) this.endPanelBg.color = this.playerWinColor;
-        else this.endPanelBg.color = this.cpuWinColor;
+        if (playerWins) {
+             this.endPanelWin.SetActive(true);
+             this.endPanelDraw.SetActive(false);
+            this.endPanelLose.SetActive(false);
+        }
+        else  {
+            this.endPanelLose.SetActive(true);
+            this.endPanelWin.SetActive(false);
+            this.endPanelDraw.SetActive(false);
+        }
     }
 
     // This function is a Coroutine that shows the counter before start the game
