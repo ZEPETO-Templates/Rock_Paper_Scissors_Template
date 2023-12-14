@@ -14,17 +14,17 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.28627452, g: 0.09411765, b: 0.3764706, a: 1}
+  m_AmbientSkyColor: {r: 0.6, g: 0.6156863, b: 0.6509804, a: 1}
   m_AmbientEquatorColor: {r: 0.20754719, g: 0.04674277, b: 0.036222856, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 0bc9f32f9bfb3494ea49a01229a877ec, type: 2}
   m_HaloStrength: 0.5
@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 067265d3b2264634dae0f72b3daed300, type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 4c592830345122040b26a612396f19ac, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 55677a68e22865a4d9518f92f90fcdf9, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 5235ceca4f1d6d749848a7252804810c, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
