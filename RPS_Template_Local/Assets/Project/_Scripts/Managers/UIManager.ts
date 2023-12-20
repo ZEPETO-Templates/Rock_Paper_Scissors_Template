@@ -27,14 +27,15 @@ export default class UIManager extends ZepetoScriptBehaviour {
 
     @Header("Info showing")
     public gameNameObj: GameObject; // Reference to the game name obj
-    public counterObj: GameObject; // Reference to the counter
+    public winsLosesObj: GameObject; // Reference to the winsLoses object
+    public winsLosesCounter: ZepetoText; // Reference to the counter of wins and loses
 
+    @Header("Counter")
+    public counterObj: GameObject; // Reference to the counter
     public counter1: GameObject; // Reference to the image of the counter
     public counter2: GameObject; // Reference to the image of the counter
     public counter3: GameObject; // Reference to the image of the counter
-    public counterStart: GameObject;
-    public winsLosesObj: GameObject; // Reference to the winsLoses object
-    public winsLosesCounter: ZepetoText; // Reference to the counter of wins and loses
+    public counterStart: GameObject; // Reference to the image of the counter
 
     @Header("Panels")
     @SerializeField() startPanel: GameObject; // Reference to the start panel

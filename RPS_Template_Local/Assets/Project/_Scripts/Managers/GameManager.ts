@@ -11,8 +11,6 @@ export enum Hands {
 export default class GameManager extends ZepetoScriptBehaviour {
     public static instance: GameManager; // Singleton instance variable
 
-    public counterToStart: number; // Variable to set the waiting time before starting a match
-
     private playerSelection: Hands; // Player selection variable will contain the hand selection of the player
     private opponentSelection: Hands; // Opponent selection variable will contain the hand selection of the opponent
 
