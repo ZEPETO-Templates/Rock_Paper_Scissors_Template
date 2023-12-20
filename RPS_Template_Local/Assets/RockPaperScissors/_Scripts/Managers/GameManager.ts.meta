@@ -1,0 +1,90 @@
+fileFormatVersion: 2
+guid: 973fbf2751fb4654cb5d2f8acdb422a6
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.Hands = void 0;\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst UIManager_1 = require(\"./UIManager\");\r\n//
+    Enum with the posibles hands to select\r\nvar Hands;\r\n(function (Hands) {\r\n   
+    Hands[Hands[\"Rock\"] = 0] = \"Rock\";\r\n    Hands[Hands[\"Paper\"] = 1] = \"Paper\";\r\n   
+    Hands[Hands[\"Scissors\"] = 2] = \"Scissors\";\r\n})(Hands = exports.Hands ||
+    (exports.Hands = {}));\r\n// This class is responsible for handling everything
+    related to the gameplay of the game, calling other managers if necessary\r\nclass
+    GameManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    // Awake is
+    called when an enabled script instance is being loaded\r\n    Awake() {\r\n       
+    // Singleton pattern\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Inequality(GameManager.instance,
+    null))\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
+    else\r\n            GameManager.instance = this;\r\n    }\r\n    // This functions
+    will set the selection of the player hand\r\n    SelectPlayerHand(selection)
+    {\r\n        // Call to the function SelectPlayerSprite on the UIManager\r\n       
+    UIManager_1.default.instance.SetPlayerSprite(selection);\r\n        // Set the
+    player selection\r\n        this.playerSelection = selection;\r\n    }\r\n   
+    // This function will select the opponent hand (rock, paper or scissors)\r\n   
+    SelectOpponentHand() {\r\n        // first we will let the variables to get a
+    random hand\r\n        // Setting the random selection\r\n        let rnd = 0;\r\n       
+    // Select a random number between 0 and the max ammount of options (In this case
+    3)\r\n        rnd = UnityEngine_1.Random.Range(0, 3);\r\n        // if rnd gets
+    a float as result it gets rounded to int\r\n        rnd = UnityEngine_1.Mathf.FloorToInt(rnd);\r\n       
+    // Set the opponent selection to the random selection\r\n        this.opponentSelection
+    = rnd;\r\n        // Call to the function SelectOpponentSprite on the UIManager\r\n       
+    UIManager_1.default.instance.SetOpponentSprite(rnd);\r\n        // Evaluate this
+    match\r\n        this.CompareHands();\r\n    }\r\n    // This function is responsible
+    for comparing the hands selected by the player and the CPU, determining who will
+    be the winner.\r\n    CompareHands() {\r\n        // We check if both selected
+    the same thing.\r\n        if (this.playerSelection == this.opponentSelection)
+    {\r\n            // We start the coroutine to resolve the situation.\r\n           
+    this.StartCoroutine(this.WaitToResolve(false, true));\r\n            // Then
+    stop the function\r\n            return;\r\n        }\r\n        // Set the variable
+    to know if the player wins, letting this on false we only need to check if the
+    player wins and not if he loses\r\n        let playerWins = false;\r\n       
+    // We create a switch to cover the different possible selections of the player.\r\n       
+    switch (this.playerSelection) {\r\n            // In the case that the player
+    has selected \"rock\"...\r\n            case Hands.Rock:\r\n                //
+    We check if the opponent selected \"scissors\" and set the playerWins\r\n               
+    if (this.opponentSelection == Hands.Scissors) {\r\n                    playerWins
+    = true;\r\n                }\r\n                break;\r\n            // In the
+    case that the player has selected \"paper\"...\r\n            case Hands.Paper:\r\n               
+    // We check if the opponent selected \"scissors\" and set the playerWins\r\n               
+    if (this.opponentSelection == Hands.Rock) {\r\n                    playerWins
+    = true;\r\n                }\r\n                break;\r\n            // In the
+    case that the player has selected \"scissors\"...\r\n            case Hands.Scissors:\r\n               
+    // We check if the opponent selected \"paper\" and set the playerWins\r\n               
+    if (this.opponentSelection == Hands.Paper) {\r\n                    playerWins
+    = true;\r\n                }\r\n                break;\r\n        }\r\n       
+    // We start the coroutine to resolve the situation. \r\n        this.StartCoroutine(this.WaitToResolve(playerWins));\r\n   
+    }\r\n    // This function is a coroutine that handles resolving the winner, resetting
+    the selections, and passing some time to the winner later on\r\n    *WaitToResolve(playerWins,
+    draw = false) {\r\n        // Here we wait 2 seconds before continue with the
+    code\r\n        yield new UnityEngine_1.WaitForSeconds(2);\r\n        // We check
+    if there was a tie based on the obtained parameters.\r\n        if (draw) {\r\n           
+    // Call to the CleanSelections function of the UIManager instance\r\n           
+    UIManager_1.default.instance.CleanSelections();\r\n            // Call to the
+    ShowDrawEndPanel function of the UIManager instance\r\n            UIManager_1.default.instance.ShowDrawEndPanel();\r\n           
+    // Stop the execution of the function.\r\n            return;\r\n        }\r\n       
+    // Call to the CleanSelections function of the UIManager instance\r\n       
+    UIManager_1.default.instance.CleanSelections();\r\n        // We check if the
+    player won. If so, we call the \"ShowEndPanel\" function from the UIManager instance.\r\n       
+    // Passing as parameters the text to be displayed for the winner and a boolean
+    that determines if the player won or not.\r\n        // If not, we will call
+    the same function but specifying that the winner was the CPU.\r\n        if (playerWins)\r\n           
+    UIManager_1.default.instance.ShowEndPanel(\"Player\", true);\r\n        else\r\n           
+    UIManager_1.default.instance.ShowEndPanel(\"CPU\", false);\r\n    }\r\n}\r\nexports.default
+    = GameManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2FtZU1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHYW1lTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2Q0FBd0U7QUFDeEUsaURBQXFEO0FBQ3JELDJDQUFpRDtBQUVqRCx5Q0FBeUM7QUFDekMsSUFBWSxLQUVYO0FBRkQsV0FBWSxLQUFLO0lBQ2IsaUNBQUksQ0FBQTtJQUFFLG1DQUFLLENBQUE7SUFBRSx5Q0FBUSxDQUFBO0FBQ3pCLENBQUMsRUFGVyxLQUFLLEdBQUwsYUFBSyxLQUFMLGFBQUssUUFFaEI7QUFFRCw2SEFBNkg7QUFDN0gsTUFBcUIsV0FBWSxTQUFRLHFDQUFxQjtJQU0xRCxrRUFBa0U7SUFDbEUsS0FBSztRQUNELG9CQUFvQjtRQUNwQixJQWxCQyxxQ0FBcUIsQ0EwSDBxRCxhQUFjLENBeEd6c0QsV0FBVyxDQUFDLFFBQVEsRUFBSSxJQUFJO1lBQUcsd0JBQVUsQ0FBQyxPQUFPLENBQUUsSUFBSSxDQUFDLFVBQVUsQ0FBRSxDQUFDOztZQUNyRSxXQUFXLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztJQUNyQyxDQUFDO0lBRUQsMkRBQTJEO0lBQ3BELGdCQUFnQixDQUFHLFNBQWlCO1FBQ3ZDLDJEQUEyRDtRQUMzRCxtQkFBUyxDQUFDLFFBQVEsQ0FBQyxlQUFlLENBQUUsU0FBUyxDQUFFLENBQUM7UUFFaEQsMkJBQTJCO1FBQzNCLElBQUksQ0FBQyxlQUFlLEdBQUcsU0FBUyxDQUFDO0lBQ3JDLENBQUM7SUFFRCx3RUFBd0U7SUFDakUsa0JBQWtCO1FBQ3JCLHVEQUF1RDtRQUV2RCwrQkFBK0I7UUFDL0IsSUFBSSxHQUFHLEdBQVEsQ0FBQyxDQUFDO1FBRWpCLG1GQUFtRjtRQUNuRixHQUFHLEdBQUcsb0JBQU0sQ0FBQyxLQUFLLENBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBRSxDQUFDO1FBRTNCLHVEQUF1RDtRQUN2RCxHQUFHLEdBQUcsbUJBQUssQ0FBQyxVQUFVLENBQUUsR0FBRyxD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","assetPath":"Assets/Project/_Scripts/Managers/GameManager.ts","manifest":{"properties":[],"name":"GameManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 326b1b01a73c71f1012cff65be200a7a
+  onlyWriteTrigger: 0

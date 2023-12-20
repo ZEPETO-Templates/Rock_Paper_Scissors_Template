@@ -1,0 +1,174 @@
+fileFormatVersion: 2
+guid: 0a19f0a195361d045babd5753ecfb8f4
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.UIPanel = void 0;\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst GameManager_1 = require(\"./GameManager\");\r\n//
+    Enum  with the posible panels to show\r\nvar UIPanel;\r\n(function (UIPanel)
+    {\r\n    UIPanel[UIPanel[\"Start\"] = 0] = \"Start\";\r\n    UIPanel[UIPanel[\"Game\"]
+    = 1] = \"Game\";\r\n    UIPanel[UIPanel[\"End\"] = 2] = \"End\";\r\n    UIPanel[UIPanel[\"None\"]
+    = 3] = \"None\";\r\n})(UIPanel = exports.UIPanel || (exports.UIPanel = {}));\r\n//
+    This class is responsible for controlling everything related to the UI and its
+    interactions.\r\nclass UIManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.playerWinsAmount
+    = 0; // Variable to save the amount of wins of the player\r\n        this.playerLosesAmount
+    = 0; // Variable to save the amount of loses of the player\r\n    }\r\n    //
+    Awake is called when an enabled script instance is being loaded.\r\n    Awake()
+    {\r\n        // Singleton pattern\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Inequality
+    // Set the winner text to Draw\r\n        (UIManager.instance, null))\r\n           
+    UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n        else\r\n           
+    UIManager.instance = this;\r\n    }\r\n    // Start is called on the frame when
+    a script is enabled just before any of the Update methods are called the first
+    time.\r\n    Start() {\r\n        // Call the function to set the logic of the
+    buttons\r\n        this.InitButtonsListeners();\r\n    }\r\n    // This function
+    set the logic of the buttons off the ui\r\n    InitButtonsListeners() {\r\n       
+    // Set the function of the click on the rock button\r\n        this.rockBtn.OnClick.AddListener(()
+    => {\r\n            // Call the function on the GameManager instance to select
+    the hand\r\n            GameManager_1.default.instance.SelectPlayerHand(0);\r\n           
+    // Call the function on the GameManager instance to select the opponent hand\r\n           
+    GameManager_1.default.instance.SelectOpponentHand();\r\n        });\r\n       
+    // Set the function of the click on the paper button\r\n        this.paperBtn.OnClick.AddListener(()
+    => {\r\n            // Call the function on the GameManager instance to select
+    the hand\r\n            GameManager_1.default.instance.SelectPlayerHand(1);\r\n           
+    // Call the function on the GameManager instance to select the opponent hand\r\n           
+    GameManager_1.default.instance.SelectOpponentHand();\r\n        });\r\n       
+    // Set the function of the click on the scissors button\r\n        this.scissorsBtn.OnClick.AddListener(()
+    => {\r\n            // Call the function on the GameManager instance to select
+    the hand\r\n            GameManager_1.default.instance.SelectPlayerHand(2);\r\n           
+    // Call the function on the GameManager instance to select the opponent hand\r\n           
+    GameManager_1.default.instance.SelectOpponentHand();\r\n        });\r\n       
+    // Set the function of the click on the play button\r\n        this.playBtn.OnClick.AddListener(()
+    => {\r\n            // Call to the coroutine to start the game\r\n           
+    this.StartCoroutine(this.WaitToStart());\r\n        });\r\n        // Deactivate
+    all the panels and the exit button\r\n        this.ShowPanel();\r\n    }\r\n   
+    // This function updates the counter of wins and loses of the ui\r\n    UpdateWinLoseCounter()
+    {\r\n        // Replace the text of winsLosesCounter to show the updated number
+    of them\r\n        this.winsLosesCounter.text = this.playerWinsAmount.toString();\r\n   
+    }\r\n    // This function displays the EndPanel and show who is the winner\r\n   
+    ShowEndPanel(winner, playerWins) {\r\n        // Deactivate the gamePanel\r\n       
+    this.gamePanel.SetActive(false);\r\n        // Activate the endpanel\r\n       
+    this.endPanel.SetActive(true);\r\n        // Call to the EndPanelColorChane function\r\n       
+    this.ChangeEndPanelColor(playerWins);\r\n        // Set the winnertext to the
+    parameter passed\r\n        this.winnerText.text = winner;\r\n        // Check
+    if the player wins and increase the wins o loses amount\r\n        if (playerWins)\r\n           
+    this.playerWinsAmount++;\r\n        else\r\n            this.playerLosesAmount++;\r\n       
+    // Then set the wins and the loses amount text with the variables\r\n       
+    this.winsAmount.text = this.playerWinsAmount.toString();\r\n        this.losesAmount.text
+    = this.playerLosesAmount.toString();\r\n        // Call to the Update wins and
+    loses function\r\n        this.UpdateWinLoseCounter();\r\n    }\r\n    // This
+    function shows the draw panel\r\n    ShowDrawEndPanel() {\r\n        // Call
+    the function to show the end panel\r\n        this.ShowPanel(UIPanel.End);\r\n       
+    // Call to the EndPanelColorChane function\r\n        this.ChangeEndPanelColor(false,
+    true);\r\n        // Set the winner text to Draw\r\n        this.winnerText.text
+    = \"Draw!\";\r\n        // Set the wins and the loses amount text with the variables\r\n       
+    this.winsAmount.text = this.playerWinsAmount.toString();\r\n        this.losesAmount.text
+    = this.playerLosesAmount.toString();\r\n    }\r\n    // This function is responsible
+    for, based on the received parameter, selecting which panel should be displayed
+    while hiding the others.\r\n    ShowPanel(panel = UIPanel.None) {\r\n       
+    // Deactivate all the panels keeping active the winslosesobj\r\n        this.startPanel.SetActive(false);\r\n       
+    this.gamePanel.SetActive(false);\r\n        this.endPanel.SetActive(false);\r\n       
+    this.winsLosesObj.SetActive(true);\r\n        // Then switch on the parameter
+    received to active one of them\r\n        switch (panel) {\r\n            case
+    UIPanel.Start:\r\n                // Activate the startPanel\r\n               
+    this.startPanel.SetActive(true);\r\n                this.infoStart.SetActive(false);\r\n               
+    break;\r\n            case UIPanel.Game:\r\n                // Activate the gamePanel\r\n               
+    this.gamePanel.SetActive(true);\r\n                // Call to the cleanSelections
+    function\r\n                this.CleanSelections();\r\n                break;\r\n           
+    case UIPanel.End:\r\n                // Activate the endPanel\r\n               
+    this.endPanel.SetActive(true);\r\n                break;\r\n            default:\r\n               
+    // If the parameter is none or not defined, also deactivate the exitBtn\r\n               
+    this.exitBtn.gameObject.SetActive(false);\r\n                this.winsLosesObj.SetActive(false);\r\n               
+    this.infoStart.SetActive(true);\r\n                break;\r\n        }\r\n   
+    }\r\n    // This functions set the icons of the selections of the players on
+    the base state\r\n    CleanSelections() {\r\n        // Set the scales on 0.6
+    and show the question mark on both selections\r\n        //  this.opponentIcon.IconScale
+    = 0.6;\r\n        this.opponentIcon.Texture = this.questionOpponent.texture;\r\n       
+    //  this.playerIcon.IconScale = 0.6;\r\n        this.playerIcon.Texture = this.questionPlayer.texture;\r\n   
+    }\r\n    // This function is responsible for changing the background color of
+    the EndPanel according to who wins or if there is a tie\r\n    ChangeEndPanelColor(playerWins,
+    draw = false) {\r\n        // If there is a draw, then the set the color and
+    stop the progress of the function\r\n        if (draw) {\r\n            this.endPanelDraw.SetActive(true);\r\n           
+    this.endPanelWin.SetActive(false);\r\n            this.endPanelLose.SetActive(false);\r\n           
+    return;\r\n        }\r\n        // Check if the player wins and select the correspondent
+    color\r\n        if (playerWins) {\r\n            this.endPanelWin.SetActive(true);\r\n           
+    this.endPanelDraw.SetActive(false);\r\n            this.endPanelLose.SetActive(false);\r\n       
+    }\r\n        else {\r\n            this.endPanelLose.SetActive(true);\r\n           
+    this.endPanelWin.SetActive(false);\r\n            this.endPanelDraw.SetActive(false);\r\n       
+    }\r\n    }\r\n    // This function is a Coroutine that shows the counter before
+    start the game\r\n    *WaitToStart() {\r\n        // Set a counter with the variable
+    previously assigned by inspector with the time to start\r\n        let counter
+    = 4;\r\n        // Deactivate the play button of the UI using the variable of
+    the UIManager\r\n        this.playBtn.gameObject.SetActive(false);\r\n       
+    // Deactivate the game name object of the UI\r\n        this.gameNameObj.SetActive(false);\r\n       
+    // Activate the object of the counter in the UI using the variable of the UIManager\r\n       
+    this.counterObj.SetActive(true);\r\n        this.DeactivateCounters();\r\n       
+    // Here we start a loop to count by seconds and show that on the counter object\r\n       
+    while (true) {\r\n            switch (counter) {\r\n                case 4:\r\n                   
+    this.counter3.SetActive(true);\r\n                    break;\r\n               
+    case 3:\r\n                    this.counter2.SetActive(true);\r\n                   
+    break;\r\n                case 2:\r\n                    this.counter1.SetActive(true);\r\n                   
+    break;\r\n                case 1:\r\n                    this.counterStart.SetActive(true);\r\n                   
+    break;\r\n            }\r\n            // Here we wait 1 second before continue
+    with the code\r\n            yield new UnityEngine_1.WaitForSeconds(1);\r\n           
+    // Deactivate all counter GameObjects\r\n            this.DeactivateCounters();\r\n           
+    // We subtract 1 from the counter variable\r\n            counter--;\r\n           
+    // console.log( \"Counter: \" + counter );\r\n            // We chekc if the
+    counter is 0 then we break the loop to continue with the code\r\n           
+    if (counter == 0)\r\n                break;\r\n        }\r\n        // Wait for
+    0.5 seconds to continue, giving sometime to see the \"Start!\" text\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.5);\r\n        // Then we need to restart
+    the panles, so we use the instance of the UIManager to:\r\n        // Deactivate
+    the counter object\r\n        this.counterObj.SetActive(false);\r\n        //
+    Activate the play button\r\n        this.playBtn.gameObject.SetActive(true);\r\n       
+    // Activate the game name object\r\n        this.gameNameObj.SetActive(true);\r\n       
+    // Call to the function ShowPanel to activate the game panel\r\n        this.ShowPanel(UIPanel.Game);\r\n       
+    // With this, now we are showing the game panel to start play\r\n        // and
+    we reset the start panel if the player wants to play again\r\n    }\r\n    //
+    Deactivate all counter GameObjects\r\n    DeactivateCounters() {\r\n        this.counter1.SetActive(false);\r\n       
+    this.counter2.SetActive(false);\r\n        this.counter3.SetActive(false);\r\n       
+    this.counterStart.SetActive(false);\r\n    }\r\n    ResetFadeIn() {\r\n       
+    this.blackout.color = new UnityEngine_1.Color(this.blackout.color.r, this.blackout.color.g,
+    this.blackout.color.b, 0);\r\n    }\r\n    InitFadeIn() {\r\n        // Init
+    the coroutine to show the blackout\r\n        this.StartCoroutine(this.FadeIn());\r\n   
+    }\r\n    *FadeIn() {\r\n        let elapsedTime = 0;\r\n        let fadeDuration
+    = 0.25;\r\n        let maxAlpha = 0.6;\r\n        while (elapsedTime < fadeDuration)
+    {\r\n            let newAlpha = UnityEngine_1.Mathf.Lerp(0, maxAlpha, elapsedTime
+    / fadeDuration);\r\n            this.blackout.color = new UnityEngine_1.Color(this.blackout.color.r,
+    this.blackout.color.g, this.blackout.color.b, newAlpha);\r\n            elapsedTime
+    += UnityEngine_1.Time.deltaTime;\r\n            yield null;\r\n        }\r\n       
+    this.blackout.color = new UnityEngine_1.Color(this.blackout.color.r, this.blackout.color.g,
+    this.blackout.color.b, maxAlpha);\r\n    }\r\n    // This functions sets the
+    sprite of the player hand in the selected one\r\n    SetPlayerSprite(selection)
+    {\r\n        // Set the icon of the opponent on the selection based on the array
+    gameSprites\r\n        this.playerIcon.Texture = this.GetHandSprite(selection).texture;\r\n   
+    }\r\n    // This functions sets the sprite of the opponent hand in the selected
+    one\r\n    SetOpponentSprite(selection) {\r\n        // Set the icon of the opponent
+    on the selection based on the array gameSprites\r\n        this.opponentIcon.Texture
+    = this.GetHandSprite(selection).texture;\r\n    }\r\n    // This function select
+    and return a sprite based on the selection parameter\r\n    GetHandSprite(selection)
+    {\r\n        if (selection == GameManager_1.Hands.Rock)\r\n            return
+    this.rockSprite;\r\n        if (selection == GameManager_1.Hands.Paper)\r\n           
+    return this.paperSprite;\r\n        if (selection == GameManager_1.Hands.Scissors)\r\n           
+    return this.scissorsSprite;\r\n    }\r\n}\r\nexports.default = UIManager;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiVUlNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLGlEQUFxRDtBQUNyRCw2Q0FBcUY7QUFFckYsK0NBQW1EO0FBR25ELHdDQUF3QztBQUN4QyxJQUFZLE9BRVg7QUFGRCxXQUFZLE9BQU87SUFDZix1Q0FBSyxDQUFBO0lBQUUscUNBQUksQ0FBQTtJQUFFLG1DQUFHLENBQUE7SUFBRSxxQ0FBSSxDQUFBO0FBQzFCLENBQUMsRUFGVyxPQUFPLEdBQVAsZUFBTyxLQUFQLGVBQU8sUUFFbEI7QUFFRCwrRkFBK0Y7QUFDL0YsTUFBcUIsU0FBVSxTQUFRLHFDQUFxQjtJQUE1RDs7UUErQ1kscUJBQWdCLEdBQVcsQ0FBQyxDQUFDLENBQUMsb0RBQW9EO1FBQ2xGLHNCQUFpQixHQUFXLENBQUMsQ0FBQyxDQUFDLHFEQUFxRDtJQXFSaEcsQ0FBQztJQWxSRyxtRUFBbUU7SUFDbkUsS0FBSztRQUNELG9CQUFvQjtRQUNwQixJQWxFQyxxQ0FBcUIsQ0F5SlcsYUFFcEMsQ0FBRyw4QkFBOEI7U0F6RjFCLFNBQVMsQ0FBQyxRQUFRLEVBQUksSUFBSTtZQUFFLHdCQUFVLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQzs7WUFDL0QsU0FBUyxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUM7SUFDbkMsQ0FBQztJQUVELHlIQUF5SDtJQUN6SCxLQUFLO1FBQ0Qsb0RBQW9EO1FBQ3BELElBQUksQ0FBQyxvQkFBb0IsRUFBRSxDQUFDO0lBQ2hDLENBQUM7SUFFRCx3REFBd0Q7SUFDeEQsb0JBQW9CO1FBQ2hCLG1EQUFtRDtRQUNuRCxJQUFJLENBQUMsT0FBTyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ2xDLG1FQUFtRTtZQUNuRSxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxnQkFBZ0IsQ0FBQyxDQUFDLENBQUMsQ0FBQztZQUV6Qyw0RUFBNEU7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","assetPath":"Assets/Project/_Scripts/Managers/UIManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"rockSprite","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"paperSprite","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"scissorsSprite","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"questionPlayer","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"questionOpponent","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"blackout","type":"UnityEngine.UI.Image","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"playerIcon","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Game\""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"opponentIcon","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"gameNameObj","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Info
+    showing\""]}]},{"assembly":"UnityEngine.CoreModule","name":"winsLosesObj","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"winsLosesCounter","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"infoStart","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"counterObj","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Counter\""]}]},{"assembly":"UnityEngine.CoreModule","name":"counter1","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"counter2","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"counter3","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"counterStart","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"startPanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Panels\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"gamePanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"endPanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"winnerText","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"End
+    screen\""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"winsAmount","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"losesAmount","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"endPanelWin","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"endPanelLose","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"endPanelDraw","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"playBtn","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Buttons\""]}]},{"assembly":"ZEPETO.World.Gui","name":"rockBtn","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"paperBtn","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"scissorsBtn","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"exitBtn","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"UIManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: dd7b9be80c2bf0ab734e6d509f2e33cf
+  onlyWriteTrigger: 0

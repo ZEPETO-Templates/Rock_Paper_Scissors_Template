@@ -39,15 +39,8 @@ In the UIManager you have some options to tweak how the game looks like.
 | Rock Sprite      | Set the rock sprite in game                                                   |
 | Paper Sprite     | Set the Paper sprite in game                                                  |
 | Scissors Sprite  | Set the Scissors  sprite in game                                              |
-| Player Win Color | This color will be in the background of the panel when the player wins a game |
-| Cpu Win Color    | This color will be in the background of the panel when the cpu wins a game    |
 
 <br><img src = "docs/images/uimanager.png" alt = "uimanager img"></img><br>
-
-**GameManager**
-The GameManager is the most simple part, it has the variable to set the counter before the start of the game
-(the 3..2..1.. start!)
-<br><img src = "docs/images/gamemanager.png" alt = "gamemanager img"></img><br>
 
 **NPCCreator**
 The NPCCreator has its own documentation in ZEPETO docs, here is the link to check it out! https://docs.zepeto.me/studio-world/docs/creating-and-controlling-npc
