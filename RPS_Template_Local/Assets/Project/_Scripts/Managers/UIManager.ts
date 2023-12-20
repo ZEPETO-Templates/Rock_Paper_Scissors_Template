@@ -28,7 +28,11 @@ export default class UIManager extends ZepetoScriptBehaviour {
     @Header("Info showing")
     public gameNameObj: GameObject; // Reference to the game name obj
     public counterObj: GameObject; // Reference to the counter
-    public counterText: ZepetoText; // Reference to the text of the counter
+
+    public counter1: GameObject; // Reference to the image of the counter
+    public counter2: GameObject; // Reference to the image of the counter
+    public counter3: GameObject; // Reference to the image of the counter
+    public counterStart: GameObject;
     public winsLosesObj: GameObject; // Reference to the winsLoses object
     public winsLosesCounter: ZepetoText; // Reference to the counter of wins and loses
 
@@ -224,36 +228,45 @@ export default class UIManager extends ZepetoScriptBehaviour {
     // This function is a Coroutine that shows the counter before start the game
     *WaitToStart() {
         // Set a counter with the variable previously assigned by inspector with the time to start
-        let counter: int = GameManager.instance.counterToStart;
-
-        // Call the function of the UIManager to show the number on the text
-        this.counterText.text = counter.toString();
+        let counter: int = 4;
+      
         // Deactivate the play button of the UI using the variable of the UIManager
         this.playBtn.gameObject.SetActive(false);
         // Deactivate the game name object of the UI
         this.gameNameObj.SetActive(false);
         // Activate the object of the counter in the UI using the variable of the UIManager
         this.counterObj.SetActive(true);
+        this.DeactivateCounters();
+
 
         // Here we start a loop to count by seconds and show that on the counter object
         while (true) {
-            // Here we wait 1 second before continue with the code
+           switch (counter)
+        {
+            case 4:
+                this.counter3.SetActive(true);
+                break;
+            case 3:
+                this.counter2.SetActive(true);
+                break;
+            case 2:
+                this.counter1.SetActive(true);
+                break;
+            case 1:
+                this.counterStart.SetActive(true);
+                break;
+        }
+         // Here we wait 1 second before continue with the code
             yield new WaitForSeconds(1);
-
+            this.DeactivateCounters();
             // We subtract 1 from the counter variable
             counter--;
-
-            // Update the counter text in the UI using the variable of the UIManager
-            this.counterText.text = counter.toString();
 
             // console.log( "Counter: " + counter );
 
             // We chekc if the counter is 0 then we break the loop to continue with the code
             if (counter == 0) break;
         }
-
-        // Update the counter text to "START!" in the UI using the variable of the UIManager
-        this.counterText.text = "START!";
 
         // Wait for 0.5 seconds to continue, giving sometime to see the "Start!" text
         yield new WaitForSeconds(0.5);
@@ -270,6 +283,13 @@ export default class UIManager extends ZepetoScriptBehaviour {
 
         // With this, now we are showing the game panel to start play
         // and we reset the start panel if the player wants to play again
+    }
+    DeactivateCounters() {
+           // Deactivate all counter GameObjects
+    this.counter1.SetActive(false);
+    this.counter2.SetActive(false);
+    this.counter3.SetActive(false);
+    this.counterStart.SetActive(false);
     }
 
     ResetFadeIn() {
