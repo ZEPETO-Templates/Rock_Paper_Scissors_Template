@@ -24,11 +24,11 @@ export default class UIManager extends ZepetoScriptBehaviour {
     @SerializeField() playerIcon: RoundedRectangleButton; // Image references of the Player
     @SerializeField() opponentIcon: RoundedRectangleButton; // Image references of the opponent
 
-
     @Header("Info showing")
     public gameNameObj: GameObject; // Reference to the game name obj
     public winsLosesObj: GameObject; // Reference to the winsLoses object
     public winsLosesCounter: ZepetoText; // Reference to the counter of wins and loses
+    public infoStart: GameObject; //  Reference to the instructions to start the game
 
     @Header("Counter")
     public counterObj: GameObject; // Reference to the counter
@@ -42,9 +42,6 @@ export default class UIManager extends ZepetoScriptBehaviour {
     @SerializeField() gamePanel: GameObject; // Reference to the game panel 
     @SerializeField() endPanel: GameObject; // Reference to the end panel
    
-   
-
-
     @Header("End screen")
     @SerializeField() winnerText: ZepetoText; // Reference to the winner text
     @SerializeField() winsAmount: ZepetoText; // Reference to the text that have the amount of wins of the player
@@ -63,7 +60,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
     private playerWinsAmount: number = 0; // Variable to save the amount of wins of the player
     private playerLosesAmount: number = 0; // Variable to save the amount of loses of the player
     
-    public infoStart: GameObject;
+
     // Awake is called when an enabled script instance is being loaded.
     Awake() {
         // Singleton pattern
@@ -242,7 +239,6 @@ export default class UIManager extends ZepetoScriptBehaviour {
         this.counterObj.SetActive(true);
         this.DeactivateCounters();
 
-
         // Here we start a loop to count by seconds and show that on the counter object
         while (true) {
            switch (counter)
@@ -262,13 +258,14 @@ export default class UIManager extends ZepetoScriptBehaviour {
         }
          // Here we wait 1 second before continue with the code
             yield new WaitForSeconds(1);
+         // Deactivate all counter GameObjects
             this.DeactivateCounters();
-            // We subtract 1 from the counter variable
+         // We subtract 1 from the counter variable
             counter--;
 
             // console.log( "Counter: " + counter );
 
-            // We chekc if the counter is 0 then we break the loop to continue with the code
+         // We chekc if the counter is 0 then we break the loop to continue with the code
             if (counter == 0) break;
         }
 
@@ -288,8 +285,9 @@ export default class UIManager extends ZepetoScriptBehaviour {
         // With this, now we are showing the game panel to start play
         // and we reset the start panel if the player wants to play again
     }
+
+    // Deactivate all counter GameObjects
     DeactivateCounters() {
-           // Deactivate all counter GameObjects
     this.counter1.SetActive(false);
     this.counter2.SetActive(false);
     this.counter3.SetActive(false);
