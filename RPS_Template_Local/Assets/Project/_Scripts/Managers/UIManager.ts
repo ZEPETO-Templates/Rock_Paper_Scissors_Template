@@ -61,7 +61,8 @@ export default class UIManager extends ZepetoScriptBehaviour {
 
     private playerWinsAmount: number = 0; // Variable to save the amount of wins of the player
     private playerLosesAmount: number = 0; // Variable to save the amount of loses of the player
-
+    
+    public infoStart: GameObject;
     // Awake is called when an enabled script instance is being loaded.
     Awake() {
         // Singleton pattern
@@ -175,6 +176,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
             case UIPanel.Start:
                 // Activate the startPanel
                 this.startPanel.SetActive(true);
+                this.infoStart.SetActive(false);
                 break;
             case UIPanel.Game:
                 // Activate the gamePanel
@@ -190,6 +192,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
                 // If the parameter is none or not defined, also deactivate the exitBtn
                 this.exitBtn.gameObject.SetActive(false);
                 this.winsLosesObj.SetActive(false);
+                this.infoStart.SetActive(true);
                 break;
         }
     }
